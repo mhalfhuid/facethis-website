@@ -24,7 +24,7 @@
     'input,select,textarea{font-size:max(16px,1em)}' +
     '#ft-tabs{display:none}' +
     '@media (max-width:760px){' +
-      'body{padding-bottom:calc(96px + env(safe-area-inset-bottom)) !important}' +
+      'body{padding-bottom:calc(72px + env(safe-area-inset-bottom)) !important}' +
       'header{padding-top:calc(10px + env(safe-area-inset-top)) !important;padding-bottom:10px !important;flex-wrap:nowrap !important}' +
       'header nav a,header > div > a:not(.logo),header .wrap nav a{display:none !important}' +
       'header nav{flex-wrap:nowrap !important;gap:8px !important}' +
