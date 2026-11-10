@@ -100,14 +100,14 @@
   function pose(move, t) {
     var ax = 640, ay = FLOOR - 8, j, far, p;
     if (move === 'squat') {
-      p = smooth(hold(wave(t, 3.2), .08));
+      p = smooth(hold(wave(t, 2.5), .08));
       j = sideStanding(600, ay, { shin: 34 * p, thigh: -84 * p, torso: 40 * p });
       addArm(j, 180 - 92 * p, 180 - 92 * p); addHead(j, 18 * p);
       far = clone(j, -10, -3);
       return { view: 'side', near: j, far: far };
     }
     if (move === 'situp') {
-      p = smooth(hold(wave(t, 3.6), .12));
+      p = smooth(hold(wave(t, 2.5), .12));
       var hip = [720, FLOOR - 24];
       var tor = -86 + 58 * p;
       j = { hip: hip };
@@ -118,7 +118,7 @@
       return { view: 'side', near: j, far: far, lying: true };
     }
     if (move === 'plank') {
-      var b = 76 + 0.8 * Math.sin(2 * Math.PI * t / 4.5);
+      var b = 76 + 0.8 * Math.sin(2 * Math.PI * t / 2.5);
       j = { ankle: [392, FLOOR - 16], footA: 170 };
       j.knee = P(j.ankle, b, LEN.shin); j.hip = P(j.knee, b, LEN.thigh); j.sh = P(j.hip, b, LEN.torso);
       j.elbow = [j.sh[0] + 4, FLOOR - 14]; j.wrist = [j.elbow[0] + LEN.fore, FLOOR - 14];
@@ -128,13 +128,13 @@
     }
     if (move === 'stretch') {
       // arms rise in the first 3 s, then slow side bends left and right (8 s per cycle)
-      var up = smooth(Math.min(1, t / 3));
-      var bend = up * 20 * Math.sin(2 * Math.PI * Math.max(0, t - 3) / 8);
+      var up = smooth(Math.min(1, t / 2));
+      var bend = up * 20 * Math.sin(2 * Math.PI * Math.max(0, t - 2) / 5);
       var hipC = [640, ay - LEN.shin - LEN.thigh];
       return { view: 'front', hipC: hipC, bend: bend, up: up };
     }
     // idle / done: easy standing bounce, arms loose (done: arms up)
-    var bob = wave(t, move === 'done' ? 1.2 : 2.4);
+    var bob = wave(t, move === 'done' ? 0.625 : 1.25);
     j = sideStanding(ax, ay, { shin: 5 * bob, thigh: -6 * bob, torso: 2 * bob });
     if (move === 'done') addArm(j, 10 + 8 * bob, 4 + 8 * bob); else addArm(j, 186 - 6 * bob, 176 - 6 * bob);
     addHead(j, 0);

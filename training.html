@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FaceThis — mijn trainingsroutine (voorbeeldontwerp)</title>
 <meta name="robots" content="noindex, nofollow">
+<script src="./app.js"></script>
 <script src="./draft.js"></script>
 <script src="./auth.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -378,7 +379,7 @@
         var r = k.c.getBoundingClientRect();
         if (r.bottom < 0 || r.top > innerHeight) return;
         var g = k.c.getContext('2d'); g.clearRect(0, 0, k.c.width, k.c.height);
-        FTCoach.draw(g, k.c.width, k.c.height, k.move, k.move === 'stretch' ? 3 + (t % 16) : t, { zoom: 1.5 });
+        FTCoach.draw(g, k.c.width, k.c.height, k.move, k.move === 'stretch' ? 2 + (t % 10) : t, { zoom: 1.5 });
       });
     }
     requestAnimationFrame(cardsLoop);

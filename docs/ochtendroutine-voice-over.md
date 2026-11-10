@@ -30,3 +30,7 @@ Vier: de plank. Ellebogen onder je schouders, je lichaam in één rechte lijn.
 
 **Einde (4:10)**
 Klaar. Goed gedaan. Zo begin je sterk aan je dag. Tot morgen.
+
+## Muziek en tempo (10 Nov, Malcolm)
+
+Eigen lo-fi hiphop-beat (96 bpm, hier gecomponeerd, dus rechtenvrij), ~8,5 dB gedempt onder de stem. Elke oefening start op een downbeat; de coach beweegt op de beat (squat en sit-up 2,5 s = 4 tellen).
