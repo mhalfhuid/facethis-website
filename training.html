@@ -48,6 +48,19 @@
   .film { font-size: clamp(9px, 1.25vw, 16px); position: relative; aspect-ratio: 16 / 9; border-radius: clamp(16px, 2.4vw, 26px); overflow: hidden; background: #000; border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0,0,0,.5); user-select: none; }
   .film canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .film:fullscreen { border-radius: 0; border: none; }
+  /* iPhone has no full-screen for page elements: the film fills the screen itself, turned sideways when the phone is upright */
+  body.ft-max { overflow: hidden; }
+  body.ft-max #ft-tabs, body.ft-max #ft-draft { display: none !important; }
+  .film.max { position: fixed; z-index: 2147483646; left: 50%; top: 50%; margin: 0; border: none; border-radius: 0; aspect-ratio: auto;
+    width: min(100vw, 177.78dvh); height: min(100dvh, 56.25vw); transform: translate(-50%, -50%);
+    font-size: calc(min(100vw, 177.78dvh) / 80); box-shadow: 0 0 0 200vmax #000; }
+  @media (orientation: portrait) { .film.max { width: min(100dvh, 177.78vw); height: min(100vw, 56.25dvh); transform: translate(-50%, -50%) rotate(90deg); font-size: calc(min(100dvh, 177.78vw) / 80); } }
+  .film .x-max { display: none; }
+  .film.max .x-max, .film:fullscreen .x-max { display: flex; position: absolute; z-index: 5; right: 1.2em; bottom: 1.2em; width: 3.4em; height: 3.4em; min-width: 40px; min-height: 40px; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); background: rgba(10,10,10,.6); color: #f5f5f3; font-size: inherit; cursor: pointer; }
+  .film .x-max svg { width: 45%; height: 45%; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+  .film.max .tap, .film:fullscreen .tap { position: absolute; inset: 0; z-index: 4; display: flex; align-items: center; justify-content: center; }
+  .film.paused .tap::after { content: ''; width: 0; height: 0; border-left: 3.6em solid rgba(245,245,243,.9); border-top: 2.2em solid transparent; border-bottom: 2.2em solid transparent; margin-left: .8em; filter: drop-shadow(0 4px 20px rgba(0,0,0,.6)); }
+  .film .poster { z-index: 6; }
   .hud { position: absolute; inset: 0; pointer-events: none; font-size: clamp(9px, 1.25vw, 16px); }
   .hud .top { position: absolute; left: 4%; right: 4%; top: 5%; display: flex; justify-content: space-between; align-items: center; }
   .hud .brand { font: 400 1.5em/1 Anton, Impact, sans-serif; text-transform: uppercase; letter-spacing: .02em; }
@@ -151,6 +164,8 @@
     <section id="panel-morning" role="tabpanel" aria-labelledby="tab-morning">
       <div class="film" id="film">
         <canvas id="stage" aria-hidden="true"></canvas>
+        <div class="tap" id="film-tap" hidden></div>
+        <button type="button" class="x-max" id="b-xmax" aria-label="Volledig scherm sluiten"><svg viewBox="0 0 24 24"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg></button>
         <div class="hud" aria-hidden="true">
           <div class="top"><div class="brand">Face<span>This</span><i>OCHTENDROUTINE</i></div><div class="step" id="h-step">00 / 04</div></div>
           <div class="name" id="h-name"><div class="k" id="h-k">Oefening 01</div><h3 id="h-title">Rekken</h3><p id="h-tip"></p></div>
@@ -283,7 +298,7 @@
   function play() {
     $('poster').hidden = true;
     if (now() >= DUR - 0.1) seek(0);
-    playing = true;
+    playing = true; $('film').classList.remove('paused');
     if (!useClock) {
       var p = audio.play();
       if (p && p.catch) p.catch(function () { useClock = true; clockAt = audio.currentTime || 0; clockStart = performance.now(); });
@@ -294,7 +309,7 @@
   function pause() {
     if (!playing) return;
     if (useClock) clockAt = now();
-    playing = false; audio.pause();
+    playing = false; audio.pause(); $('film').classList.add('paused');
     $('b-play').innerHTML = '▶ Verder'; $('b-play').setAttribute('aria-label', 'Verder');
   }
   function stop() { pause(); seek(0); $('poster').hidden = false; $('poster-t').textContent = 'Start de film · 4:18'; }
@@ -303,11 +318,28 @@
   $('b-play').onclick = function () { playing ? pause() : play(); };
   $('b-restart').onclick = function () { seek(0); play(); };
   $('b-cc').onclick = function () { cc = !cc; this.setAttribute('aria-pressed', cc); render(); };
-  $('b-full').onclick = function () {
+  function isFull() { return !!document.fullscreenElement || $('film').classList.contains('max'); }
+  function setMax(on) {
+    $('film').classList.toggle('max', on); document.body.classList.toggle('ft-max', on);
+    $('film-tap').hidden = !on; setTimeout(sizeAll, 60);
+  }
+  function toggleFull() {
     var f = $('film');
-    if (document.fullscreenElement) document.exitFullscreen();
-    else if (f.requestFullscreen) f.requestFullscreen(); else if (f.webkitEnterFullscreen) f.webkitEnterFullscreen();
-  };
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    if (f.classList.contains('max')) { setMax(false); return; }
+    if (document.fullscreenEnabled && f.requestFullscreen) {
+      f.requestFullscreen().then(function () {
+        $('film-tap').hidden = false;
+        if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(function () {});
+      }).catch(function () { setMax(true); });
+    } else setMax(true);                                    // iPhone
+    if (!playing) play();
+  }
+  $('b-full').onclick = toggleFull;
+  $('b-xmax').onclick = function (e) { e.stopPropagation(); toggleFull(); };
+  $('film-tap').onclick = function () { playing ? pause() : play(); };
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && $('film').classList.contains('max')) setMax(false); });
+  document.addEventListener('fullscreenchange', function () { if (!document.fullscreenElement) $('film-tap').hidden = true; });
   document.addEventListener('keydown', function (e) {
     if ($('open').hidden || $('panel-morning').hidden || e.target.closest('input, textarea, #ft-login')) return;
     if (e.code === 'Space') { e.preventDefault(); playing ? pause() : play(); }
