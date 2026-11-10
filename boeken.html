@@ -6,6 +6,7 @@
 <title>FaceThis — boeken (voorbeeldontwerp)</title>
 <meta name="robots" content="noindex, nofollow">
 <script src="./draft.js"></script>
+<script src="./auth.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -30,12 +31,15 @@
 
   <header style="position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; background: rgba(10,10,10,.86); backdrop-filter: blur(14px); border-bottom: 1px solid #1e1e1c;">
     <div style="display: flex; align-items: baseline; gap: 2px; font-family: Anton, Impact, sans-serif; font-size: clamp(19px, 3vw, 24px); letter-spacing: .02em; text-transform: uppercase;">Face<span style="color: #C4F82A;">This</span></div>
-    <div style="display: flex; align-items: center; gap: 12px; padding: 8px 14px 8px 8px; border-radius: 999px; background: #111110; border: 1px solid #21211d;">
-      <div style="width: 32px; height: 32px; border-radius: 999px; background: repeating-linear-gradient(135deg, #26261f 0 6px, #1a1a16 6px 12px);"></div>
-      <div>
-        <div style="font-size: 13px; font-weight: 700;">Iris Bakker</div>
-        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8a84;">Mijn account</div>
-      </div>
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <a href="training.html" style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;">Training</a>
+      <button onClick="{{ authAction }}" style="display: flex; align-items: center; gap: 12px; padding: 8px 14px 8px 8px; border-radius: 999px; background: #111110; border: 1px solid #21211d; color: #f5f5f3; text-align: left; cursor: pointer;">
+        <div style="width: 32px; height: 32px; border-radius: 999px; background: repeating-linear-gradient(135deg, #26261f 0 6px, #1a1a16 6px 12px);"></div>
+        <div>
+          <div style="font-size: 13px; font-weight: 700;">{{ userName }}</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8a84;">{{ userSub }}</div>
+        </div>
+      </button>
     </div>
   </header>
 
@@ -44,6 +48,18 @@
     <p style="margin: 12px 0 0; max-width: 48ch; font-size: clamp(14px, 1.6vw, 17px); line-height: 1.6; color: #b9b9b4;">Kies je tijd en locatie, betaal direct. Je slot staat vast zodra de betaling is afgerond.</p>
   </section>
 
+  <sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: clamp(26px, 5vw, 52px); border-radius: clamp(20px, 3vw, 28px); background: #0f0f0e; border: 1px solid #21211d;">
+        <div style="max-width: 52ch;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #C4F82A;">Alleen voor klanten</div>
+          <h3 style="margin: 12px 0 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(26px, 4vw, 42px); line-height: 1; text-transform: uppercase;">Log eerst in om te boeken</h3>
+          <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: #b9b9b4;">Na het inloggen kies je tijd en locatie en betaal je direct. Je geboekte sessies en je trainingsroutine van Melvin staan dan ook klaar.</p>
+        </div>
+        <button onClick="{{ openLogin }}" style="padding: 17px 30px; border: none; border-radius: 999px; background: #C4F82A; color: #0a0a0a; font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; box-shadow: 0 12px 34px rgba(196,248,42,.22);">Inloggen</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ true }}">
+    <div data-demo-flow>
   <div style="border-radius: clamp(20px, 3vw, 28px); background: #0f0f0e; border: 1px solid #21211d; overflow: hidden;">
     <div style="display: flex; flex-wrap: wrap; gap: 10px; padding: 18px clamp(16px, 3vw, 28px); border-bottom: 1px solid #1e1e1c;">
       <sc-for list="{{ bSteps }}" as="bs" hint-placeholder-count="3">
@@ -208,6 +224,8 @@
       </sc-for>
     </div>
   </section>
+  </div>
+  </sc-if>
 
   <footer style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: clamp(32px, 5vw, 56px); padding-top: 24px; border-top: 1px solid #1e1e1c;">
     <div style="font-family: Anton, Impact, sans-serif; font-size: 19px; text-transform: uppercase;">Face<span style="color: #C4F82A;">This</span></div>
@@ -221,7 +239,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{}">
 class Component extends DCLogic {
-  state = {
+  state = { user: window.FTAuth ? window.FTAuth.get() : null,
     bStep: 1, day: 0, time: null, loc: 0, method: null, paying: false, hold: 600,
     bookings: [
       { iso: "2026-09-11", dow: "vr", dom: "11", mon: "sep", time: "07:00 uur", duration: "45 minuten", loc: "Outdoor Kruisdijkpark", address: "Kruisdijkpark, Utrecht-Oost", ref: "FT-268924", amount: "€ 55,00", status: "Betaald" },
@@ -231,6 +249,8 @@ class Component extends DCLogic {
   };
 
   componentDidMount() {
+    this._auth = () => this.setState({ user: window.FTAuth ? window.FTAuth.get() : null, bStep: 1, time: null, method: null });
+    window.addEventListener("ft-auth", this._auth);
     this._t = setInterval(() => {
       if (this.state.time && this.state.bStep === 2) {
         this.setState((s) => (s.hold <= 1 ? { hold: 600, time: null, bStep: 1 } : { hold: s.hold - 1 }));
@@ -311,6 +331,13 @@ class Component extends DCLogic {
     const mm = Math.floor(s.hold / 60), ss = String(s.hold % 60).padStart(2, "0");
 
     return {
+      loggedIn: !!s.user, loggedOut: !s.user,
+      userLabel: s.user ? "Ingelogd als " + s.user.name.split(" ")[0] : "",
+      userName: s.user ? s.user.name : "Inloggen",
+      userSub: s.user ? "Uitloggen" : "Demo-account",
+      openLogin: () => window.FTAuth && window.FTAuth.open(),
+      authAction: () => window.FTAuth && (this.state.user ? window.FTAuth.logout() : window.FTAuth.open()),
+      authLabel: s.user ? "Uitloggen" : "Inloggen",
       bSteps: labels.map(([num, label], i) => {
         const done = s.bStep >= i + 1;
         return { num, label, bar: done ? on : "#252520", numC: done ? on : "#5c5c56", labelC: done ? "#f5f5f3" : "#5c5c56" };

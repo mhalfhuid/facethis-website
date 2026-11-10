@@ -6,6 +6,7 @@
 <title>FaceThis — personal training (voorbeeldontwerp)</title>
 <meta name="robots" content="noindex, nofollow">
 <script src="./draft.js"></script>
+<script src="./auth.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -37,6 +38,8 @@
       <a href="#boeken" style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #b9b9b4;">Boeken</a>
       <a href="#resultaten" style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #b9b9b4;">Resultaten</a>
       <a href="#coach" style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #b9b9b4;">Coach</a>
+      <a href="training.html" style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #C4F82A;">Training</a>
+      <button onClick="{{ authAction }}" style="padding: 10px 16px; border-radius: 999px; border: 1px solid #35352f; background: transparent; color: #f5f5f3; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer;">{{ authLabel }}</button>
       <a href="#boeken" style="padding: 11px 18px; border-radius: 999px; background: #C4F82A; color: #0a0a0a; font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;">Boek een training</a>
     </nav>
   </header>
@@ -155,15 +158,27 @@
         <h2 style="margin: 12px 0 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(32px, 5.4vw, 62px); line-height: 1; text-transform: uppercase;">Boek een <span style="color: #C4F82A;">sessie</span></h2>
         <p style="margin: 12px 0 0; max-width: 46ch; font-size: 15px; line-height: 1.6; color: #b9b9b4;">Locatie en tijd op één scherm, daarna direct betalen. In minder dan een minuut staat je training vast.</p>
       </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; border-radius: 999px; background: #111110; border: 1px solid #21211d;">
+      <button onClick="{{ authAction }}" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; border-radius: 999px; background: #111110; border: 1px solid #21211d; color: #f5f5f3; text-align: left; cursor: pointer;">
         <div style="width: 34px; height: 34px; border-radius: 999px; background: repeating-linear-gradient(135deg, #26261f 0 6px, #1a1a16 6px 12px);"></div>
         <div>
-          <div style="font-size: 13px; font-weight: 700;">Ingelogd als Iris</div>
-          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8a84;">Strippenkaart: 6 sessies</div>
+          <div style="font-size: 13px; font-weight: 700;">{{ userName }}</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8a84;">{{ userSub }}</div>
         </div>
-      </div>
+      </button>
     </div>
 
+    <sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top: clamp(24px, 4vw, 40px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: clamp(26px, 5vw, 52px); border-radius: clamp(20px, 3vw, 28px); background: #0f0f0e; border: 1px solid #21211d;">
+        <div style="max-width: 52ch;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #C4F82A;">Alleen voor klanten</div>
+          <h3 style="margin: 12px 0 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(26px, 4vw, 42px); line-height: 1; text-transform: uppercase;">Log eerst in om te boeken</h3>
+          <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: #b9b9b4;">Na het inloggen kies je tijd en locatie en betaal je direct. Je geboekte sessies en je trainingsroutine van Melvin staan dan ook klaar.</p>
+        </div>
+        <button onClick="{{ openLogin }}" style="padding: 17px 30px; border: none; border-radius: 999px; background: #C4F82A; color: #0a0a0a; font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; box-shadow: 0 12px 34px rgba(196,248,42,.22);">Inloggen</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ true }}">
+    <div>
     <div style="margin-top: clamp(24px, 4vw, 40px); border-radius: clamp(20px, 3vw, 28px); background: #0f0f0e; border: 1px solid #21211d; overflow: hidden;">
       <div style="display: flex; flex-wrap: wrap; gap: 10px; padding: 18px clamp(16px, 3vw, 28px); border-bottom: 1px solid #1e1e1c;">
         <sc-for list="{{ bSteps }}" as="bs" hint-placeholder-count="3">
@@ -325,6 +340,8 @@
         </div>
       </sc-for>
     </div>
+    </div>
+    </sc-if>
   </section>
 
   <section id="resultaten" style="padding: clamp(48px, 7vw, 96px) clamp(16px, 4vw, 48px);">
@@ -508,6 +525,7 @@
   <footer style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; padding: 26px clamp(16px, 4vw, 48px) 108px; border-top: 1px solid #1e1e1c;">
     <div style="font-family: Anton, Impact, sans-serif; font-size: 20px; text-transform: uppercase;">Face<span style="color: #C4F82A;">This</span></div>
     <a href="#boeken" style="padding: 14px 24px; border-radius: 999px; background: #C4F82A; color: #0a0a0a; font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;">Boek een training</a>
+    <a href="training.html" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .1em; text-transform: uppercase;">Mijn trainingsroutine →</a>
     <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .08em; color: #6e6e68;">© 2026 FaceThis — Personal training &amp; fitnesscoaching</div>
   </footer>
 
@@ -522,7 +540,7 @@
   &quot;defaultFeedFilter&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;Alles&quot;, &quot;Transformaties&quot;, &quot;Trainingen&quot;, &quot;Tips&quot;, &quot;Reviews&quot;], &quot;default&quot;: &quot;Alles&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Feed&quot; }
 }">
 class Component extends DCLogic {
-  state = { filter: null, video: 0, name: "", email: "", goal: "Vetverlies", msg: "", sent: false,
+  state = { user: window.FTAuth ? window.FTAuth.get() : null, filter: null, video: 0, name: "", email: "", goal: "Vetverlies", msg: "", sent: false,
     bStep: 1, day: 0, time: null, loc: 0, method: null, paying: false, hold: 600, fab: false,
     bookings: [
       { iso: "2026-09-08", dow: "di", dom: "08", mon: "sep", time: "18:00 uur", duration: "60 minuten", loc: "Studio Vaartsche Rijn", address: "Rijnkade 12, Utrecht", ref: "FT-268911", amount: "€ 65,00", status: "Betaald" },
@@ -531,6 +549,8 @@ class Component extends DCLogic {
     ] };
 
   componentDidMount() {
+    this._auth = () => this.setState({ user: window.FTAuth ? window.FTAuth.get() : null, bStep: 1, time: null, method: null });
+    window.addEventListener("ft-auth", this._auth);
     this._onScroll = () => {
       const b = document.getElementById("boeken");
       const inBooking = b ? (() => { const r = b.getBoundingClientRect(); return r.top < window.innerHeight * 0.85 && r.bottom > 0; })() : false;
@@ -617,6 +637,13 @@ class Component extends DCLogic {
     const total = "€ " + loc.price + ",00";
 
     return {
+      loggedIn: !!s.user, loggedOut: !s.user,
+      userLabel: s.user ? "Ingelogd als " + s.user.name.split(" ")[0] : "",
+      userName: s.user ? s.user.name : "Inloggen",
+      userSub: s.user ? "Uitloggen" : "Demo-account",
+      openLogin: () => window.FTAuth && window.FTAuth.open(),
+      authAction: () => window.FTAuth && (this.state.user ? window.FTAuth.logout() : window.FTAuth.open()),
+      authLabel: s.user ? "Uitloggen" : "Inloggen",
       bSteps: labels.map(([num, label], i) => {
         const done = step >= i + 1;
         return { num, label, bar: done ? on : "#252520", numC: done ? on : "#5c5c56", labelC: done ? "#f5f5f3" : "#5c5c56" };

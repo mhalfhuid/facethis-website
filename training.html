@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FaceThis — mijn trainingsroutine (voorbeeldontwerp)</title>
+<meta name="robots" content="noindex, nofollow">
+<script src="./draft.js"></script>
+<script src="./auth.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --lime: #C4F82A; --ink: #0a0a0a; --text: #f5f5f3; --body: #b9b9b4; --muted: #8a8a84; --line: #21211d; --card: #0f0f0e; --card2: #131311; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--ink); color: var(--text); font-family: Archivo, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: var(--lime); text-decoration: none; } a:hover { color: #fff; }
+  button { font-family: inherit; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px); }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  .kick { font: 500 11px/1 'IBM Plex Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--lime); }
+  .anton { font-family: Anton, Impact, sans-serif; font-weight: 400; text-transform: uppercase; }
+  header.bar { position: sticky; top: 0; z-index: 50; background: rgba(10,10,10,.84); backdrop-filter: blur(14px); border-bottom: 1px solid #1e1e1c; }
+  header.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 14px; padding-bottom: 14px; }
+  .logo { font: 400 clamp(20px, 3vw, 26px)/1 Anton, Impact, sans-serif; letter-spacing: .02em; text-transform: uppercase; color: var(--text); }
+  .logo span { color: var(--lime); }
+  nav { display: flex; align-items: center; gap: clamp(10px, 2vw, 24px); flex-wrap: wrap; justify-content: flex-end; }
+  nav a { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--body); }
+  nav a.on { color: var(--lime); }
+  .pill { padding: 11px 18px; border-radius: 999px; border: 1px solid #35352f; background: transparent; color: var(--text); font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; }
+  .pill:hover { border-color: var(--lime); color: var(--lime); }
+  .cta { display: inline-block; padding: 16px 28px; border: none; border-radius: 999px; background: var(--lime); color: var(--ink); font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; box-shadow: 0 12px 34px rgba(196,248,42,.22); }
+  .cta:hover { background: #d8ff58; color: var(--ink); }
+  .hero { padding: clamp(36px, 7vw, 84px) 0 clamp(20px, 4vw, 36px); }
+  .hero h1 { margin: 14px 0 0; font-size: clamp(42px, 8.5vw, 108px); line-height: .92; }
+  .hero h1 em { font-style: normal; color: var(--lime); }
+  .hero p { margin: 16px 0 0; max-width: 54ch; font-size: clamp(15px, 1.6vw, 18px); line-height: 1.6; color: var(--body); }
+  .lock { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 64px; padding: clamp(26px, 5vw, 52px); border-radius: 28px; background: var(--card); border: 1px solid var(--line); }
+  .lock h2 { margin: 12px 0 0; font-size: clamp(26px, 4vw, 42px); line-height: 1; }
+  .lock p { margin: 12px 0 0; max-width: 52ch; font-size: 15px; line-height: 1.6; color: var(--body); }
+  .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin: 4px 0 26px; }
+  .tab { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-radius: 999px; border: 1px solid #2c2c26; background: transparent; color: var(--body); font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; }
+  .tab small { font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: .06em; opacity: .75; text-transform: none; }
+  .tab[aria-selected="true"] { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+  /* ---------- film */
+  .film { font-size: clamp(9px, 1.25vw, 16px); position: relative; aspect-ratio: 16 / 9; border-radius: clamp(16px, 2.4vw, 26px); overflow: hidden; background: #000; border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0,0,0,.5); user-select: none; }
+  .film canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .film:fullscreen { border-radius: 0; border: none; }
+  .hud { position: absolute; inset: 0; pointer-events: none; font-size: clamp(9px, 1.25vw, 16px); }
+  .hud .top { position: absolute; left: 4%; right: 4%; top: 5%; display: flex; justify-content: space-between; align-items: center; }
+  .hud .brand { font: 400 1.5em/1 Anton, Impact, sans-serif; text-transform: uppercase; letter-spacing: .02em; }
+  .hud .brand span { color: var(--lime); } .hud .brand i { font: 500 .55em 'IBM Plex Mono', monospace; font-style: normal; letter-spacing: .14em; color: var(--body); margin-left: .9em; vertical-align: .3em; }
+  .hud .step { font: 500 .85em 'IBM Plex Mono', monospace; letter-spacing: .12em; padding: .5em .9em; border-radius: 999px; background: rgba(10,10,10,.6); border: 1px solid rgba(255,255,255,.12); }
+  .hud .name { position: absolute; left: 4%; bottom: 13%; transition: opacity .4s; }
+  .hud .name .k { font: 500 .8em 'IBM Plex Mono', monospace; letter-spacing: .16em; text-transform: uppercase; color: var(--lime); }
+  .hud .name h3 { margin: .2em 0 0; font: 400 3.6em/0.95 Anton, Impact, sans-serif; text-transform: uppercase; text-shadow: 0 4px 30px rgba(0,0,0,.6); }
+  .hud .name p { margin: .5em 0 0; font-size: .95em; font-weight: 600; color: #e2e2dd; text-shadow: 0 2px 12px rgba(0,0,0,.8); }
+  .hud .ring { position: absolute; right: 4%; bottom: 11%; width: 8.6em; height: 8.6em; transition: opacity .4s; }
+  .hud .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .hud .ring .num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; font: 400 2.7em/1 Anton, Impact, sans-serif; }
+  .hud .ring .num small { font: 500 .25em 'IBM Plex Mono', monospace; letter-spacing: .14em; color: var(--body); margin-top: .4em; }
+  .hud .ring.last .num { color: var(--lime); animation: tick 1s ease-out infinite; }
+  @keyframes tick { 0% { transform: scale(1.12); } 100% { transform: scale(1); } }
+  .hud .cap { position: absolute; left: 50%; bottom: 4.2%; transform: translateX(-50%); max-width: 70%; padding: .45em .9em; border-radius: .5em; background: rgba(0,0,0,.66); font-size: 1.05em; font-weight: 600; line-height: 1.4; text-align: center; opacity: 0; transition: opacity .25s; }
+  .hud .cap.on { opacity: 1; }
+  .hud .card { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding-left: 7%; background: linear-gradient(90deg, rgba(10,10,10,.92) 0%, rgba(10,10,10,.75) 45%, rgba(10,10,10,0) 80%); opacity: 0; transition: opacity .5s; }
+  .hud .card.on { opacity: 1; }
+  .hud .card .k { font: 500 .9em 'IBM Plex Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: var(--lime); }
+  .hud .card h2 { margin: .25em 0 0; font: 400 6em/.9 Anton, Impact, sans-serif; text-transform: uppercase; }
+  .hud .card h2 em { font-style: normal; color: var(--lime); }
+  .hud .card p { margin: .7em 0 0; font-size: 1.1em; color: var(--body); }
+  .hud .card .chips { display: flex; gap: .6em; margin-top: 1.2em; flex-wrap: wrap; }
+  .hud .card .chips span { font: 500 .75em 'IBM Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; padding: .55em .9em; border-radius: 999px; border: 1px solid rgba(255,255,255,.18); }
+  .poster { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.28); cursor: pointer; border: none; padding: 0; color: inherit; }
+  .poster .play { display: flex; align-items: center; gap: 16px; padding: 18px 28px 18px 18px; border-radius: 999px; background: var(--lime); color: var(--ink); font-size: clamp(13px, 1.4vw, 16px); font-weight: 800; letter-spacing: .05em; text-transform: uppercase; box-shadow: 0 20px 60px rgba(0,0,0,.5); transition: transform .2s; }
+  .poster:hover .play { transform: scale(1.04); }
+  .poster .play b { width: 52px; height: 52px; border-radius: 999px; background: var(--ink); display: flex; align-items: center; justify-content: center; }
+  .poster .play b::after { content: ''; margin-left: 5px; border-left: 16px solid var(--lime); border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
+  .prog { position: absolute; left: 0; right: 0; bottom: 0; height: 5px; display: flex; gap: 3px; cursor: pointer; pointer-events: auto; }
+  .prog div { position: relative; height: 100%; background: rgba(255,255,255,.16); overflow: hidden; }
+  .prog div i { position: absolute; inset: 0; width: 0; background: var(--lime); }
+  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .ctl { display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; border-radius: 999px; border: 1px solid #2c2c26; background: var(--card); color: var(--text); font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; }
+  .ctl:hover { border-color: var(--lime); color: var(--lime); }
+  .ctl[aria-pressed="true"] { border-color: var(--lime); color: var(--lime); }
+  .time { margin-left: auto; font: 500 13px 'IBM Plex Mono', monospace; color: var(--muted); }
+  /* ---------- cards */
+  .sect { margin-top: clamp(40px, 6vw, 72px); }
+  .sect h2 { margin: 10px 0 0; font-size: clamp(28px, 4.4vw, 50px); line-height: 1; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; margin-top: 24px; }
+  .ex { border-radius: 22px; background: var(--card); border: 1px solid var(--line); overflow: hidden; }
+  .ex canvas { display: block; width: 100%; aspect-ratio: 16 / 9; background: #111; }
+  .ex .b { padding: 18px 20px 22px; }
+  .ex .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .ex .n { font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: .12em; color: var(--lime); }
+  .ex h3 { margin: 8px 0 0; font-size: 28px; line-height: 1; }
+  .ex ul { margin: 12px 0 0; padding: 0; list-style: none; }
+  .ex li { position: relative; padding-left: 18px; margin-top: 7px; font-size: 14px; line-height: 1.5; color: var(--body); }
+  .ex li::before { content: ''; position: absolute; left: 0; top: .55em; width: 7px; height: 7px; border-radius: 2px; background: var(--lime); }
+  .soon { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 28px; align-items: center; padding: clamp(26px, 5vw, 56px); border-radius: 28px; background: var(--card); border: 1px solid var(--line); }
+  .soon h2 { margin: 12px 0 0; font-size: clamp(30px, 5vw, 56px); line-height: .95; }
+  .soon p { margin: 14px 0 0; font-size: 15px; line-height: 1.65; color: var(--body); max-width: 50ch; }
+  .blocks { display: flex; align-items: flex-end; gap: 6px; height: 160px; padding: 18px; border-radius: 20px; background: var(--card2); border: 1px solid var(--line); }
+  .blocks span { flex: 1; border-radius: 6px; background: #252520; }
+  .blocks span.w { background: rgba(196,248,42,.35); }
+  .badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(196,248,42,.1); border: 1px solid rgba(196,248,42,.35); color: var(--lime); font: 500 12px 'IBM Plex Mono', monospace; margin-top: 18px; }
+  .badge::before { content: ''; width: 8px; height: 8px; border-radius: 999px; background: var(--lime); animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  .note { margin-top: 14px; font: 400 12px/1.7 'IBM Plex Mono', monospace; color: #6e6e68; }
+  footer { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; margin-top: 80px; padding: 26px 0 100px; border-top: 1px solid #1e1e1c; }
+  [hidden] { display: none !important; }
+  @media (max-width: 640px) { .poster .play { padding: 10px 16px 10px 10px; gap: 10px; font-size: 12px; } .poster .play b { width: 34px; height: 34px; } .poster .play b::after { border-left-width: 11px; border-top-width: 7px; border-bottom-width: 7px; margin-left: 3px; } .hud .name p { display: none; } .hud .ring { width: 7em; height: 7em; } .hud .name h3 { font-size: 3em; } .hud .card h2 { font-size: 4.4em; } }
+</style>
+</head>
+<body>
+
+<header class="bar"><div class="wrap">
+  <a class="logo" href="index.html">Face<span>This</span></a>
+  <nav>
+    <a href="index.html#diensten">Diensten</a>
+    <a href="index.html#boeken">Boeken</a>
+    <a href="training.html" class="on" aria-current="page">Training</a>
+    <button class="pill" id="auth-btn">Inloggen</button>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kick">Mijn training</div>
+    <h1 class="anton">Jouw <em>routine.</em><br>Door Melvin.</h1>
+    <p id="hello">Een persoonlijke set oefeningen, door Melvin voor jou samengesteld. Kies een categorie, druk op start en doe mee in real time.</p>
+  </section>
+
+  <section class="lock" id="locked">
+    <div>
+      <div class="kick">Alleen voor klanten</div>
+      <h2 class="anton">Log in voor je routine</h2>
+      <p>Je trainingsroutine is persoonlijk. Log in om je ochtendroutine en je intervaltraining te openen.</p>
+    </div>
+    <button class="cta" id="login-cta">Inloggen</button>
+  </section>
+
+  <div id="open" hidden>
+    <div class="tabs" role="tablist" aria-label="Categorie">
+      <button class="tab" role="tab" id="tab-morning" aria-selected="true" aria-controls="panel-morning">Ochtendroutine <small>4 oefeningen · 4 min</small></button>
+      <button class="tab" role="tab" id="tab-interval" aria-selected="false" aria-controls="panel-interval">Intervaltraining <small>binnenkort</small></button>
+    </div>
+
+    <section id="panel-morning" role="tabpanel" aria-labelledby="tab-morning">
+      <div class="film" id="film">
+        <canvas id="stage" aria-hidden="true"></canvas>
+        <div class="hud" aria-hidden="true">
+          <div class="top"><div class="brand">Face<span>This</span><i>OCHTENDROUTINE</i></div><div class="step" id="h-step">00 / 04</div></div>
+          <div class="name" id="h-name"><div class="k" id="h-k">Oefening 01</div><h3 id="h-title">Rekken</h3><p id="h-tip"></p></div>
+          <div class="ring" id="h-ring">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="rgba(10,10,10,.6)" stroke="rgba(255,255,255,.14)" stroke-width="6"/><circle id="h-arc" cx="50" cy="50" r="44" fill="none" stroke="#C4F82A" stroke-width="6" stroke-linecap="round" stroke-dasharray="276.5" stroke-dashoffset="0"/></svg>
+            <div class="num"><span id="h-sec">60</span><small>SEC</small></div>
+          </div>
+          <div class="card" id="h-card"><div class="k" id="c-k">Persoonlijk programma</div><h2 id="c-h">Ochtend<em>routine</em></h2><p id="c-p">4 oefeningen · 1 minuut per oefening · door Melvin</p><div class="chips" id="c-chips"><span>Rekken</span><span>Squats</span><span>Sit-ups</span><span>Plank</span></div></div>
+        </div>
+        <div class="cap" id="h-cap" aria-live="polite"></div>
+        <div class="prog" id="bar" title="Spring naar een oefening"></div>
+        <button class="poster" id="poster" aria-label="Start de film"><span class="play"><b></b><span id="poster-t">Start de film · 4:18</span></span></button>
+      </div>
+      <div class="controls">
+        <button class="ctl" id="b-play" aria-label="Start">▶ Start</button>
+        <button class="ctl" id="b-restart">↺ Opnieuw</button>
+        <button class="ctl" id="b-cc" aria-pressed="true">CC Ondertitels</button>
+        <button class="ctl" id="b-full">⤢ Volledig scherm</button>
+        <span class="time" id="b-time">0:00 / 4:18</span>
+      </div>
+      <p class="note">Leg een mat neer en zet je telefoon of laptop zo dat je het scherm ziet. Doe mee in je eigen tempo; stop als iets pijn doet.</p>
+
+      <div class="sect">
+        <div class="kick">De oefeningen</div>
+        <h2 class="anton">Vier minuten. Elke ochtend.</h2>
+        <div class="grid" id="cards"></div>
+      </div>
+    </section>
+
+    <section id="panel-interval" role="tabpanel" aria-labelledby="tab-interval" hidden>
+      <div class="soon">
+        <div>
+          <div class="kick">Intervaltraining</div>
+          <h2 class="anton">Melvin maakt je <span style="color:var(--lime)">schema.</span></h2>
+          <p>Je intervaltraining wordt afgestemd op je intake en je doelen: blokken werk en rust, met oefeningen die bij je niveau passen. Zodra Melvin hem klaar heeft, staat hij hier.</p>
+          <div class="badge">Binnenkort beschikbaar</div>
+        </div>
+        <div class="blocks" aria-hidden="true">
+          <span class="w" style="height:80%"></span><span style="height:35%"></span><span class="w" style="height:90%"></span><span style="height:35%"></span><span class="w" style="height:70%"></span><span style="height:35%"></span><span class="w" style="height:95%"></span><span style="height:35%"></span><span class="w" style="height:85%"></span><span style="height:35%"></span><span class="w" style="height:100%"></span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <a class="logo" href="index.html" style="font-size:20px">Face<span>This</span></a>
+    <a href="index.html#boeken" class="cta" style="padding:14px 24px;font-size:13px">Boek een training</a>
+    <span class="mono" style="font-size:11px;letter-spacing:.08em;color:#6e6e68">© 2026 FaceThis — Personal training &amp; fitnesscoaching</span>
+  </footer>
+</main>
+
+<audio id="track" src="media/ochtendroutine.m4a" preload="metadata"></audio>
+<script src="./coach.js"></script>
+<script>
+(function () {
+  var DUR = 258;
+  var EX = [
+    { move: 'stretch', name: 'Rekken', from: 10, tip: 'Armen hoog · buig rustig links en rechts', cues: ['Sta rechtop, armen hoog boven je hoofd', 'Reik naar het plafond', 'Buig rustig naar links en naar rechts', 'Adem door, schouders laag'] },
+    { move: 'squat', name: 'Squats', from: 70, tip: 'Voeten heupbreedte · borst omhoog', cues: ['Voeten op heupbreedte, borst omhoog', 'Zak alsof je gaat zitten', 'Kom krachtig omhoog', 'Knieën boven je tenen'] },
+    { move: 'situp', name: 'Sit-ups', from: 130, tip: 'Rol omhoog vanuit je buik', cues: ['Op je rug, knieën gebogen, voeten plat', 'Rol omhoog vanuit je buik, niet je nek', 'Rustig terug naar beneden', 'Blijf ademen'] },
+    { move: 'plank', name: 'Plank', from: 190, tip: 'Ellebogen onder je schouders · één lijn', cues: ['Ellebogen onder je schouders', 'Lichaam in één rechte lijn', 'Span je buik aan', 'Heupen niet laten zakken'] }
+  ];
+  var CAPS = [
+    [1.0, 8.4, 'Goedemorgen. Dit is je ochtendroutine van Melvin. Vier oefeningen, elk één minuut. Doe gewoon mee.'],
+    [10.6, 13.1, 'Eén: rekken. Sta rechtop, armen hoog boven je hoofd. Reik naar het plafond, en buig rustig naar links… en naar rechts.'],
+    [40, 3.2, 'Adem rustig door. Laat je schouders zakken.'], [60, 1.5, 'Nog tien seconden.'],
+    [70.6, 11.2, 'Twee: squats. Voeten op heupbreedte, borst omhoog. Zak alsof je gaat zitten, en kom krachtig omhoog.'],
+    [100, 3.9, 'Knieën boven je tenen. Houd je tempo.'], [120, 1.5, 'Nog tien seconden.'],
+    [130.6, 9.9, 'Drie: sit-ups. Ga op je rug liggen, knieën gebogen, voeten plat. Rol omhoog vanuit je buik, niet vanuit je nek.'],
+    [160, 3.5, 'Rustig terug naar beneden. Blijf ademen.'], [180, 1.5, 'Nog tien seconden.'],
+    [190.6, 7.6, 'Vier: de plank. Ellebogen onder je schouders, je lichaam in één rechte lijn.'],
+    [220, 3.4, 'Span je buik aan. Laat je heupen niet zakken.'], [240, 1.5, 'Nog tien seconden.'], [241.8, 1.1, 'Volhouden.'],
+    [250.5, 7.1, 'Klaar. Goed gedaan. Zo begin je sterk aan je dag. Tot morgen.']
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+
+  // ---------- login state
+  function refresh() {
+    var u = FTAuth.get();
+    $('auth-btn').textContent = u ? 'Uitloggen' : 'Inloggen';
+    $('locked').hidden = !!u; $('open').hidden = !u;
+    $('hello').textContent = u
+      ? 'Hoi ' + u.name.split(' ')[0] + '. Melvin heeft dit voor je klaargezet: kies een categorie, druk op start en doe mee in real time.'
+      : 'Een persoonlijke set oefeningen, door Melvin voor jou samengesteld. Kies een categorie, druk op start en doe mee in real time.';
+    if (!u) stop();
+    sizeAll();
+  }
+  $('auth-btn').onclick = function () { FTAuth.get() ? FTAuth.logout() : FTAuth.open({ reason: 'Log in om je trainingsroutine van Melvin te openen.' }); };
+  $('login-cta').onclick = function () { FTAuth.open({ reason: 'Log in om je trainingsroutine van Melvin te openen.' }); };
+  window.addEventListener('ft-auth', refresh);
+
+  // ---------- tabs
+  function tab(which) {
+    var m = which === 'morning';
+    $('tab-morning').setAttribute('aria-selected', m); $('tab-interval').setAttribute('aria-selected', !m);
+    $('panel-morning').hidden = !m; $('panel-interval').hidden = m;
+    if (!m) pause();
+    sizeAll();
+  }
+  $('tab-morning').onclick = function () { tab('morning'); };
+  $('tab-interval').onclick = function () { tab('interval'); };
+
+  // ---------- film
+  var audio = $('track'), stage = $('stage'), sctx = stage.getContext('2d');
+  var playing = false, clockStart = 0, clockAt = 0, useClock = false, cc = true;
+  function now() {
+    if (!useClock) return audio.currentTime || 0;
+    return playing ? clockAt + (performance.now() - clockStart) / 1000 : clockAt;
+  }
+  function fmt(s) { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+  function sceneAt(t) {
+    if (t < 10) return { move: 'idle', local: t, idx: -1 };
+    if (t >= 250) return { move: 'done', local: t - 250, idx: 4 };
+    var i = Math.min(3, Math.floor((t - 10) / 60));
+    return { move: EX[i].move, local: t - EX[i].from, idx: i };
+  }
+  // progress bar: intro, 4 exercises, outro
+  var parts = [[0, 10], [10, 70], [70, 130], [130, 190], [190, 250], [250, 258]];
+  parts.forEach(function (p) { var d = document.createElement('div'); d.style.flex = (p[1] - p[0]); d.innerHTML = '<i></i>'; $('bar').appendChild(d); });
+  $('bar').onclick = function (e) {
+    var r = this.getBoundingClientRect(), x = (e.clientX - r.left) / r.width;
+    // jump to the start of the part that was clicked
+    var t = x * DUR, target = 0; parts.forEach(function (p) { if (t >= p[0]) target = p[0]; });
+    seek(target);
+  };
+  function seek(t) {
+    if (useClock) { clockAt = t; clockStart = performance.now(); } else { try { audio.currentTime = t; } catch (e) {} }
+    render();
+  }
+  function play() {
+    $('poster').hidden = true;
+    if (now() >= DUR - 0.1) seek(0);
+    playing = true;
+    if (!useClock) {
+      var p = audio.play();
+      if (p && p.catch) p.catch(function () { useClock = true; clockAt = audio.currentTime || 0; clockStart = performance.now(); });
+    } else { clockStart = performance.now(); }
+    $('b-play').innerHTML = '❚❚ Pauze'; $('b-play').setAttribute('aria-label', 'Pauze');
+    loop();
+  }
+  function pause() {
+    if (!playing) return;
+    if (useClock) clockAt = now();
+    playing = false; audio.pause();
+    $('b-play').innerHTML = '▶ Verder'; $('b-play').setAttribute('aria-label', 'Verder');
+  }
+  function stop() { pause(); seek(0); $('poster').hidden = false; $('poster-t').textContent = 'Start de film · 4:18'; }
+  audio.addEventListener('ended', function () { playing = false; $('poster').hidden = false; $('poster-t').textContent = 'Nog een keer · 4:18'; $('b-play').innerHTML = '▶ Start'; render(); });
+  $('poster').onclick = play;
+  $('b-play').onclick = function () { playing ? pause() : play(); };
+  $('b-restart').onclick = function () { seek(0); play(); };
+  $('b-cc').onclick = function () { cc = !cc; this.setAttribute('aria-pressed', cc); render(); };
+  $('b-full').onclick = function () {
+    var f = $('film');
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (f.requestFullscreen) f.requestFullscreen(); else if (f.webkitEnterFullscreen) f.webkitEnterFullscreen();
+  };
+  document.addEventListener('keydown', function (e) {
+    if ($('open').hidden || $('panel-morning').hidden || e.target.closest('input, textarea, #ft-login')) return;
+    if (e.code === 'Space') { e.preventDefault(); playing ? pause() : play(); }
+  });
+
+  function render() {
+    var t = Math.min(DUR, now()), sc = sceneAt(t);
+    var w = stage.width, h = stage.height;
+    sctx.clearRect(0, 0, w, h);
+    FTCoach.draw(sctx, w, h, sc.move, sc.local, { zoom: 1.12 });
+    // dip to black around each cut
+    var cuts = [10, 70, 130, 190, 250], dip = 0;
+    cuts.forEach(function (c) { var d = Math.abs(t - c); if (d < 0.35) dip = Math.max(dip, 1 - d / 0.35); });
+    if (dip > 0) { sctx.fillStyle = 'rgba(0,0,0,' + dip + ')'; sctx.fillRect(0, 0, w, h); }
+    // HUD
+    var inEx = sc.idx >= 0 && sc.idx <= 3;
+    $('h-step').textContent = (inEx ? '0' + (sc.idx + 1) : sc.idx === 4 ? '04' : '00') + ' / 04';
+    $('h-name').style.opacity = inEx && sc.local > 3 ? 1 : 0;
+    $('h-ring').style.opacity = inEx ? 1 : 0;
+    if (inEx) {
+      var e = EX[sc.idx], left = Math.max(0, 60 - sc.local);
+      $('h-k').textContent = 'Oefening 0' + (sc.idx + 1) + ' · 1 minuut';
+      $('h-title').textContent = e.name; $('h-tip').textContent = e.tip;
+      $('h-sec').textContent = Math.ceil(left);
+      $('h-arc').style.strokeDashoffset = (276.5 * (1 - left / 60)).toFixed(1);
+      $('h-ring').classList.toggle('last', left <= 3.2);
+    }
+    // title cards: intro, each exercise's first 3 s, and the end
+    var card = $('h-card'), on = false;
+    if (sc.idx === -1) { on = true; $('c-k').textContent = 'Persoonlijk programma'; $('c-h').innerHTML = 'Ochtend<em>routine</em>'; $('c-p').textContent = '4 oefeningen · 1 minuut per oefening · door Melvin'; $('c-chips').hidden = false; }
+    else if (inEx && sc.local < 3) { on = true; $('c-k').textContent = 'Oefening 0' + (sc.idx + 1) + ' van 04'; $('c-h').innerHTML = EX[sc.idx].name + '<em>.</em>'; $('c-p').textContent = EX[sc.idx].tip; $('c-chips').hidden = true; }
+    else if (sc.idx === 4) { on = true; $('c-k').textContent = '4 minuten · gedaan'; $('c-h').innerHTML = 'Goed <em>gedaan.</em>'; $('c-p').textContent = 'Zo begin je sterk aan je dag. Tot morgen.'; $('c-chips').hidden = true; }
+    card.classList.toggle('on', on);
+    // captions
+    var cap = '', capEl = $('h-cap');
+    if (cc) CAPS.forEach(function (c) { if (t >= c[0] && t < c[0] + c[1] + 0.4) cap = c[2]; });
+    if (cap) capEl.textContent = cap;
+    capEl.classList.toggle('on', !!cap);
+    // progress
+    var bars = $('bar').children;
+    parts.forEach(function (p, i) { bars[i].firstChild.style.width = (Math.max(0, Math.min(1, (t - p[0]) / (p[1] - p[0]))) * 100) + '%'; });
+    $('b-time').textContent = fmt(t) + ' / 4:18';
+    if (useClock && playing && t >= DUR) { playing = false; $('poster').hidden = false; $('poster-t').textContent = 'Nog een keer · 4:18'; }
+  }
+  var raf = 0;
+  function loop() { cancelAnimationFrame(raf); render(); if (playing) raf = requestAnimationFrame(loop); }
+
+  // ---------- exercise cards with looping previews
+  var cardCanvases = [];
+  EX.forEach(function (e, i) {
+    var el = document.createElement('article'); el.className = 'ex';
+    el.innerHTML = '<canvas aria-hidden="true"></canvas><div class="b"><div class="row"><span class="n">0' + (i + 1) + ' / 04</span><span class="n" style="color:#8a8a84">1:00</span></div>' +
+      '<h3 class="anton">' + e.name + '</h3><ul>' + e.cues.map(function (c) { return '<li>' + c + '</li>'; }).join('') + '</ul></div>';
+    $('cards').appendChild(el);
+    cardCanvases.push({ c: el.querySelector('canvas'), move: e.move });
+  });
+  function sizeCanvas(c, maxW) {
+    var dpr = Math.min(2, window.devicePixelRatio || 1), w = Math.min(maxW, Math.round(c.clientWidth * dpr));
+    if (w > 0 && c.width !== w) { c.width = w; c.height = Math.round(w * 9 / 16); }
+  }
+  function sizeAll() { sizeCanvas(stage, 1920); cardCanvases.forEach(function (k) { sizeCanvas(k.c, 900); }); render(); }
+  window.addEventListener('resize', sizeAll);
+  document.addEventListener('fullscreenchange', function () { setTimeout(sizeAll, 60); });
+  var t0 = performance.now();
+  (function cardsLoop() {
+    if (!$('open').hidden && !$('panel-morning').hidden && !playing) {
+      var t = (performance.now() - t0) / 1000;
+      cardCanvases.forEach(function (k) {
+        var r = k.c.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) return;
+        var g = k.c.getContext('2d'); g.clearRect(0, 0, k.c.width, k.c.height);
+        FTCoach.draw(g, k.c.width, k.c.height, k.move, k.move === 'stretch' ? 3 + (t % 16) : t, { zoom: 1.5 });
+      });
+    }
+    requestAnimationFrame(cardsLoop);
+  })();
+
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { FTCoach.clear(); sizeAll(); });
+  refresh();
+})();
+</script>
+</body>
+</html>
