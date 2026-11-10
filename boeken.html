@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FaceThis — boeken (voorbeeldontwerp)</title>
+<meta name="robots" content="noindex, nofollow">
+<script src="./draft.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0a0a0a; color: #f5f5f3; font-family: Archivo, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C4F82A; text-decoration: none; }
+  a:hover { color: #ffffff; }
+  input, textarea, button, select { font-family: inherit; }
+  @keyframes ft-pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.14); opacity: .7; } }
+  @keyframes ft-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+</style>
+</helmet>
+
+<div style="max-width: 1120px; margin: 0 auto; padding: 0 clamp(14px, 3vw, 32px) 72px;">
+
+  <header style="position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; background: rgba(10,10,10,.86); backdrop-filter: blur(14px); border-bottom: 1px solid #1e1e1c;">
+    <div style="display: flex; align-items: baseline; gap: 2px; font-family: Anton, Impact, sans-serif; font-size: clamp(19px, 3vw, 24px); letter-spacing: .02em; text-transform: uppercase;">Face<span style="color: #C4F82A;">This</span></div>
+    <div style="display: flex; align-items: center; gap: 12px; padding: 8px 14px 8px 8px; border-radius: 999px; background: #111110; border: 1px solid #21211d;">
+      <div style="width: 32px; height: 32px; border-radius: 999px; background: repeating-linear-gradient(135deg, #26261f 0 6px, #1a1a16 6px 12px);"></div>
+      <div>
+        <div style="font-size: 13px; font-weight: 700;">Iris Bakker</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8a84;">Mijn account</div>
+      </div>
+    </div>
+  </header>
+
+  <section style="padding: clamp(26px, 5vw, 48px) 0 clamp(18px, 3vw, 28px); animation: ft-rise .5s ease both;">
+    <h1 style="margin: 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(34px, 7vw, 64px); line-height: .96; text-transform: uppercase;">Boek een <span style="color: #C4F82A;">sessie</span></h1>
+    <p style="margin: 12px 0 0; max-width: 48ch; font-size: clamp(14px, 1.6vw, 17px); line-height: 1.6; color: #b9b9b4;">Kies je tijd en locatie, betaal direct. Je slot staat vast zodra de betaling is afgerond.</p>
+  </section>
+
+  <div style="border-radius: clamp(20px, 3vw, 28px); background: #0f0f0e; border: 1px solid #21211d; overflow: hidden;">
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; padding: 18px clamp(16px, 3vw, 28px); border-bottom: 1px solid #1e1e1c;">
+      <sc-for list="{{ bSteps }}" as="bs" hint-placeholder-count="3">
+        <div style="flex: 1 1 130px; min-width: 0;">
+          <div style="height: 4px; border-radius: 999px; background: {{ bs.bar }};"></div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: {{ bs.numC }};">{{ bs.num }}</span>
+            <span style="font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: {{ bs.labelC }};">{{ bs.label }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="padding: clamp(18px, 3vw, 32px);">
+      <sc-if value="{{ atAgenda }}" hint-placeholder-val="{{ true }}">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: clamp(18px, 3vw, 30px); align-items: start;">
+          <div style="min-width: 0;">
+            <h2 style="margin: 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(21px, 2.8vw, 28px); text-transform: uppercase;">Kies datum &amp; tijd</h2>
+            <div style="margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .06em; color: #8a8a84;">Beschikbaarheid van {{ sumLoc }}</div>
+            <div style="display: flex; gap: 10px; overflow-x: auto; padding: 18px 2px 8px;">
+              <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
+                <button onClick="{{ d.select }}" style="flex: none; width: 84px; padding: 14px 8px; border-radius: 16px; border: 1px solid {{ d.ring }}; background: {{ d.bg }}; color: {{ d.fg }}; cursor: pointer; text-align: center;">
+                  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; opacity: .7;">{{ d.dow }}</div>
+                  <div style="margin-top: 6px; font-family: Anton, Impact, sans-serif; font-size: 26px; line-height: 1;">{{ d.dom }}</div>
+                  <div style="margin-top: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; opacity: .7;">{{ d.mon }}</div>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; margin-top: 14px;">
+              <sc-for list="{{ slots }}" as="t" hint-placeholder-count="8">
+                <button onClick="{{ t.select }}" disabled="{{ t.full }}" style="padding: 14px 8px; border-radius: 12px; border: 1px solid {{ t.ring }}; background: {{ t.bg }}; color: {{ t.fg }}; font-size: 15px; font-weight: 700; cursor: {{ t.cursor }}; text-decoration: {{ t.deco }};">{{ t.label }}</button>
+              </sc-for>
+            </div>
+            <div style="margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.6; color: #8a8a84;">{{ agendaHint }}</div>
+          </div>
+
+          <div style="min-width: 0; padding: 18px; border-radius: 20px; background: #131311; border: 1px solid #21211d;">
+            <h2 style="margin: 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(19px, 2.4vw, 25px); text-transform: uppercase;">Locatie</h2>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 14px;">
+              <sc-for list="{{ locations }}" as="l" hint-placeholder-count="2">
+                <button onClick="{{ l.select }}" style="text-align: left; padding: 16px; border-radius: 16px; border: 1px solid {{ l.ring }}; background: {{ l.bg }}; color: inherit; cursor: pointer;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                    <span style="font-size: 15px; font-weight: 800; color: #f5f5f3;">{{ l.name }}</span>
+                    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: {{ l.tagC }};">{{ l.tag }}</span>
+                  </div>
+                  <div style="margin-top: 7px; font-size: 13px; line-height: 1.6; color: #a8a8a2;">{{ l.address }}</div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8a84;">
+                    <span>{{ l.detail }}</span>
+                    <span style="color: {{ l.tagC }};">{{ l.priceLabel }}</span>
+                  </div>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #21211d;">
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Datum</span><span style="font-weight: 700; text-align: right;">{{ sumDate }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Tijd</span><span style="font-weight: 700; text-align: right;">{{ sumTime }}</span></div>
+            </div>
+            <button onClick="{{ toBetalen }}" disabled="{{ noTime }}" style="width: 100%; margin-top: 16px; padding: 16px 24px; border: none; border-radius: 999px; background: {{ nextBg }}; color: {{ nextFg }}; font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: {{ nextCursor }};">Naar betalen →</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ atBetalen }}" hint-placeholder-val="{{ false }}">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: clamp(18px, 3vw, 30px); align-items: start;">
+          <div>
+            <h2 style="margin: 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(21px, 2.8vw, 28px); text-transform: uppercase;">Betalen</h2>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 12px 16px; border-radius: 12px; background: rgba(196,248,42,.08); border: 1px solid rgba(196,248,42,.35);">
+              <span style="width: 8px; height: 8px; border-radius: 999px; background: #C4F82A; animation: ft-pulse 1.6s ease-in-out infinite;"></span>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #C4F82A;">Slot vastgehouden — {{ holdLabel }}</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px;">
+              <sc-for list="{{ methods }}" as="m" hint-placeholder-count="4">
+                <button onClick="{{ m.select }}" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border-radius: 14px; border: 1px solid {{ m.ring }}; background: {{ m.bg }}; color: #f5f5f3; font-size: 15px; font-weight: 700; cursor: pointer; text-align: left;">
+                  <span>{{ m.label }}</span>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: {{ m.noteC }};">{{ m.note }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <p style="margin: 16px 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.7; color: #6e6e68;">Beveiligde betaling. Je timeslot is pas definitief zodra de betaling is afgerond.</p>
+          </div>
+          <div style="padding: 20px; border-radius: 18px; background: #131311; border: 1px solid #21211d;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8a8a84;">Overzicht</div>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Datum</span><span style="font-weight: 700; text-align: right;">{{ sumDate }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Tijd</span><span style="font-weight: 700; text-align: right;">{{ sumTime }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Locatie</span><span style="font-weight: 700; text-align: right;">{{ sumLoc }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Coach</span><span style="font-weight: 700; text-align: right;">Melvin Halfhuid</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Duur</span><span style="font-weight: 700; text-align: right;">{{ sumDuration }}</span></div>
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-top: 14px; border-top: 1px solid #21211d;">
+                <span style="font-size: 14px; color: #8a8a84;">Totaal</span>
+                <span style="font-family: Anton, Impact, sans-serif; font-size: 30px; color: #C4F82A;">{{ totalLabel }}</span>
+              </div>
+            </div>
+            <button onClick="{{ pay }}" disabled="{{ noMethod }}" style="width: 100%; margin-top: 18px; padding: 17px 20px; border: none; border-radius: 999px; background: {{ payBg }}; color: {{ payFg }}; font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: {{ payCursor }};">{{ payLabel }}</button>
+            <button onClick="{{ toAgenda }}" style="width: 100%; margin-top: 10px; padding: 13px 20px; border-radius: 999px; border: 1px solid #2c2c26; background: transparent; color: #b9b9b4; font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; cursor: pointer;">← Tijd of locatie wijzigen</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ atBevestiging }}" hint-placeholder-val="{{ false }}">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: clamp(18px, 3vw, 30px); align-items: start;">
+          <div>
+            <div style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: #C4F82A; color: #0a0a0a; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;">Betaling geslaagd</div>
+            <h2 style="margin: 18px 0 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(25px, 4vw, 42px); line-height: 1; text-transform: uppercase;">Je training staat vast</h2>
+            <p style="margin: 12px 0 0; max-width: 44ch; font-size: 15px; line-height: 1.7; color: #b9b9b4;">De bevestiging is ook naar je e-mail gestuurd, met datum, tijd, locatie en betaalstatus.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px;">
+              <button onClick="{{ reset }}" style="padding: 15px 24px; border: none; border-radius: 999px; background: #C4F82A; color: #0a0a0a; font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: pointer;">Nog een sessie boeken</button>
+              <a href="#agenda" style="padding: 15px 24px; border-radius: 999px; border: 1px solid #2c2c26; color: #b9b9b4; font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;">Naar mijn agenda</a>
+            </div>
+          </div>
+          <div style="padding: 22px; border-radius: 18px; background: #131311; border: 1px solid #C4F82A;">
+            <div style="display: flex; justify-content: space-between; gap: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #8a8a84;">
+              <span>Boekingsnr.</span><span style="color: #C4F82A;">{{ bookingRef }}</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 18px;">
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #8a8a84;">Datum</span><span style="font-weight: 700; text-align: right;">{{ sumDate }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #8a8a84;">Tijd</span><span style="font-weight: 700; text-align: right;">{{ sumTime }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #8a8a84;">Locatie</span><span style="font-weight: 700; text-align: right;">{{ sumLoc }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #8a8a84;">Betaald</span><span style="font-weight: 700; text-align: right; color: #C4F82A;">{{ totalLabel }} — {{ sumMethod }}</span></div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section id="agenda" style="padding-top: clamp(36px, 5vw, 60px);">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px;">
+      <div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #C4F82A;">Mijn agenda</div>
+        <h2 style="margin: 10px 0 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(24px, 3.4vw, 38px); line-height: 1; text-transform: uppercase;">Jouw geboekte sessies</h2>
+      </div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8a8a84;">{{ agendaCount }} — coach Melvin Halfhuid</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+      <sc-for list="{{ myBookings }}" as="b" hint-placeholder-count="3">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 14px; align-items: center; padding: 18px; border-radius: 18px; background: {{ b.bg }}; border: 1px solid {{ b.ring }};">
+          <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+            <div style="flex: none; width: 54px; padding: 8px 0; border-radius: 12px; background: #1c1c19; text-align: center;">
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; color: #8a8a84;">{{ b.dow }}</div>
+              <div style="font-family: Anton, Impact, sans-serif; font-size: 22px; line-height: 1.1; color: {{ b.dateC }};">{{ b.dom }}</div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8a84;">{{ b.mon }}</div>
+            </div>
+            <div style="min-width: 0;">
+              <div style="font-size: 15px; font-weight: 800;">{{ b.time }}</div>
+              <div style="margin-top: 3px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8a84;">{{ b.duration }}</div>
+            </div>
+          </div>
+          <div style="min-width: 0;">
+            <div style="font-size: 14px; font-weight: 700; color: #e2e2dd;">{{ b.loc }}</div>
+            <div style="margin-top: 3px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8a84;">{{ b.address }}</div>
+          </div>
+          <div style="min-width: 0;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8a84;">{{ b.ref }}</div>
+            <div style="margin-top: 3px; font-size: 13px; font-weight: 700; color: #e2e2dd;">{{ b.amount }}</div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;">
+            <span style="padding: 8px 14px; border-radius: 999px; background: {{ b.statusBg }}; color: {{ b.statusFg }}; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;">{{ b.status }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <footer style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: clamp(32px, 5vw, 56px); padding-top: 24px; border-top: 1px solid #1e1e1c;">
+    <div style="font-family: Anton, Impact, sans-serif; font-size: 19px; text-transform: uppercase;">Face<span style="color: #C4F82A;">This</span></div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+      <a href="https://instagram.com/facethis" target="_blank" rel="noopener" style="padding: 11px 18px; border-radius: 999px; border: 1px solid #2c2c26; color: #f5f5f3; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;" style-hover="border-color: #C4F82A; color: #C4F82A;">Instagram</a>
+      <a href="https://tiktok.com/@facethis" target="_blank" rel="noopener" style="padding: 11px 18px; border-radius: 999px; border: 1px solid #2c2c26; color: #f5f5f3; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;" style-hover="border-color: #C4F82A; color: #C4F82A;">TikTok</a>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .08em; color: #6e6e68;">Rijnkade 12, Utrecht</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = {
+    bStep: 1, day: 0, time: null, loc: 0, method: null, paying: false, hold: 600,
+    bookings: [
+      { iso: "2026-09-11", dow: "vr", dom: "11", mon: "sep", time: "07:00 uur", duration: "45 minuten", loc: "Outdoor Kruisdijkpark", address: "Kruisdijkpark, Utrecht-Oost", ref: "FT-268924", amount: "€ 55,00", status: "Betaald" },
+      { iso: "2026-09-14", dow: "ma", dom: "14", mon: "sep", time: "19:00 uur", duration: "60 minuten", loc: "Studio Vaartsche Rijn", address: "Rijnkade 12, Utrecht", ref: "FT-268937", amount: "€ 65,00", status: "Betaald" },
+      { iso: "2026-09-17", dow: "do", dom: "17", mon: "sep", time: "06:30 uur", duration: "60 minuten", loc: "Studio Vaartsche Rijn", address: "Rijnkade 12, Utrecht", ref: "FT-268950", amount: "€ 65,00", status: "Betaald" }
+    ]
+  };
+
+  componentDidMount() {
+    this._t = setInterval(() => {
+      if (this.state.time && this.state.bStep === 2) {
+        this.setState((s) => (s.hold <= 1 ? { hold: 600, time: null, bStep: 1 } : { hold: s.hold - 1 }));
+      }
+    }, 1000);
+  }
+  componentWillUnmount() { clearInterval(this._t); if (this._p) clearTimeout(this._p); }
+
+  dayList() {
+    const dows = ["zo", "ma", "di", "wo", "do", "vr", "za"];
+    const dowsFull = ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"];
+    const mons = ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+    const monsFull = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"];
+    const base = new Date(2026, 8, 8);
+    return Array.from({ length: 14 }, (_, i) => {
+      const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
+      return {
+        dow: dows[d.getDay()], dowIdx: d.getDay(), dom: String(d.getDate()), mon: mons[d.getMonth()],
+        iso: d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"),
+        full: dowsFull[d.getDay()] + " " + d.getDate() + " " + monsFull[d.getMonth()]
+      };
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const on = "#C4F82A";
+    const labels = [["01", "Sessie"], ["02", "Betalen"], ["03", "Bevestiging"]];
+
+    const locs = [
+      { name: "Studio Vaartsche Rijn", address: "Rijnkade 12, Utrecht", detail: "Privé studio", tag: "Populair",
+        price: 65, duration: "60 minuten", dows: [1, 2, 3, 4, 5, 6], times: ["06:30", "07:30", "09:00", "10:00", "12:30", "17:00", "18:00", "19:00", "20:00"] },
+      { name: "Outdoor Kruisdijkpark", address: "Kruisdijkpark, Utrecht-Oost", detail: "Buitentraining", tag: "Buiten",
+        price: 55, duration: "45 minuten", dows: [1, 3, 5, 0], times: ["07:00", "08:30", "10:00", "17:30", "19:00"] }
+    ];
+    const loc = locs[s.loc] || locs[0];
+    const locations = locs.map((l, i) => {
+      const a = s.loc === i;
+      return { ...l, priceLabel: "€ " + l.price + ",-", bg: a ? "#1a1a16" : "transparent", ring: a ? on : "#21211d", tagC: a ? on : "#6e6e68",
+        select: () => this.setState({ loc: i, time: null, day: 0, hold: 600 }) };
+    });
+
+    const allDays = this.dayList().filter((d) => loc.dows.includes(d.dowIdx));
+    const dayIdx = Math.min(s.day, allDays.length - 1);
+    const days = allDays.map((d, i) => {
+      const a = i === dayIdx;
+      return { ...d, bg: a ? on : "transparent", fg: a ? "#0a0a0a" : "#e2e2dd", ring: a ? on : "#2c2c26",
+        select: () => this.setState({ day: i, time: null, hold: 600 }) };
+    });
+
+    const curIso = (allDays[dayIdx] || allDays[0]).iso;
+    const fullSet = [(dayIdx * 3 + s.loc) % loc.times.length, (dayIdx * 5 + 2) % loc.times.length];
+    const slots = loc.times.map((label, i) => {
+      const mine = s.bookings.some((b) => b.iso === curIso && b.time === label + " uur" && b.loc === loc.name);
+      const full = fullSet.includes(i) || mine;
+      const a = s.time === label;
+      return { label, full, cursor: full ? "not-allowed" : "pointer", deco: full ? "line-through" : "none",
+        bg: a ? on : "transparent", fg: full ? "#4a4a44" : a ? "#0a0a0a" : "#e2e2dd", ring: a ? on : "#252520",
+        select: () => { if (!full) this.setState({ time: label, hold: 600 }); } };
+    });
+
+    const methodList = [
+      { label: "iDEAL", note: "Direct via je bank" },
+      { label: "Apple Pay", note: "1 tik" },
+      { label: "Creditcard", note: "Visa / Mastercard" },
+      { label: "Bancontact", note: "België" }
+    ];
+    const methods = methodList.map((m, i) => {
+      const a = s.method === i;
+      return { ...m, bg: a ? "#1a1a16" : "transparent", ring: a ? on : "#21211d", noteC: a ? on : "#6e6e68",
+        select: () => this.setState({ method: i }) };
+    });
+
+    const noTime = !s.time, noMethod = s.method === null || s.paying;
+    const cta = (dis) => ({ bg: dis ? "#1c1c19" : on, fg: dis ? "#5c5c56" : "#0a0a0a", cursor: dis ? "not-allowed" : "pointer" });
+    const n = cta(noTime), p = cta(noMethod);
+    const total = "€ " + loc.price + ",00";
+    const mm = Math.floor(s.hold / 60), ss = String(s.hold % 60).padStart(2, "0");
+
+    return {
+      bSteps: labels.map(([num, label], i) => {
+        const done = s.bStep >= i + 1;
+        return { num, label, bar: done ? on : "#252520", numC: done ? on : "#5c5c56", labelC: done ? "#f5f5f3" : "#5c5c56" };
+      }),
+      atAgenda: s.bStep === 1, atBetalen: s.bStep === 2, atBevestiging: s.bStep === 3,
+      days, slots, locations, methods,
+      agendaHint: s.time ? "Slot wordt 10 minuten voor je vastgehouden zodra je gaat betalen" : "Doorgestreepte tijden zijn volgeboekt of al door jou geboekt",
+      noTime, noMethod,
+      nextBg: n.bg, nextFg: n.fg, nextCursor: n.cursor,
+      payBg: p.bg, payFg: p.fg, payCursor: p.cursor,
+      payLabel: s.paying ? "Betaling verwerken…" : "Betaal " + total,
+      totalLabel: total, holdLabel: mm + ":" + ss,
+      sumDate: (allDays[dayIdx] || allDays[0]).full,
+      sumTime: s.time ? s.time + " uur" : "—",
+      sumLoc: loc.name, sumDuration: loc.duration,
+      sumMethod: s.method === null ? "—" : methodList[s.method].label,
+      bookingRef: "FT-26" + String(8950 + (s.bStep === 3 ? s.bookings.length - 1 : s.bookings.length) * 13),
+      myBookings: [...s.bookings].sort((a, b) => (a.iso + a.time).localeCompare(b.iso + b.time)).map((b) => ({
+        ...b,
+        bg: b.isNew ? "#16170f" : "#111110",
+        ring: b.isNew ? on : "#21211d",
+        dateC: b.isNew ? on : "#f5f5f3",
+        status: b.isNew ? "Nieuw — betaald" : b.status,
+        statusBg: b.isNew ? on : "#1c1c19",
+        statusFg: b.isNew ? "#0a0a0a" : on
+      })),
+      agendaCount: s.bookings.length + " sessies gepland",
+      toAgenda: () => this.setState({ bStep: 1 }),
+      toBetalen: () => { if (this.state.time) this.setState({ bStep: 2, hold: 600 }); },
+      pay: () => {
+        if (this.state.method === null || this.state.paying) return;
+        this.setState({ paying: true });
+        const day = allDays[dayIdx] || allDays[0];
+        const entry = { iso: day.iso, dow: day.dow, dom: day.dom, mon: day.mon, time: this.state.time + " uur",
+          duration: loc.duration, loc: loc.name, address: loc.address,
+          ref: "FT-26" + String(8950 + this.state.bookings.length * 13), amount: total, status: "Betaald", isNew: true };
+        this._p = setTimeout(() => this.setState((st) => ({
+          paying: false, bStep: 3,
+          bookings: [...st.bookings.map((b) => ({ ...b, isNew: false })), entry]
+        })), 1300);
+      },
+      reset: () => this.setState({ bStep: 1, time: null, method: null, hold: 600 })
+    };
+  }
+}
+</script>
+</body>
+</html>
