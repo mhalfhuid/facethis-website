@@ -30,6 +30,5 @@
       setTimeout(function () { alert('Dit is een voorbeeldontwerp: er wordt nog niets verstuurd of betaald.'); }, 50);
     }
   }, true);
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addBanner); else addBanner();
-  window.addEventListener('load', addBanner);
+  // Bar removed (Malcolm, 10 Nov: "delete the bar"); the demo notice on send buttons stays.
 })();
