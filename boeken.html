@@ -78,8 +78,24 @@
       <sc-if value="{{ atAgenda }}" hint-placeholder-val="{{ true }}">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: clamp(18px, 3vw, 30px); align-items: start;">
           <div style="min-width: 0;">
-            <h2 style="margin: 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.6vw, 28px); letter-spacing: -.015em;">Kies datum &amp; tijd</h2>
-            <div style="margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .06em; color: #75756E;">Beschikbaarheid van {{ sumLoc }}</div>
+            <h2 style="margin: 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(22px, 2.6vw, 28px); letter-spacing: -.015em;">1 · Kies locatie</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px; margin-top: 14px;">
+              <sc-for list="{{ locations }}" as="l" hint-placeholder-count="2">
+                <button onClick="{{ l.select }}" aria-pressed="{{ l.pressed }}" style="text-align: left; padding: 16px 16px 16px 22px; border-radius: 0; border: 2px solid {{ l.ring }}; background: {{ l.bg }}; box-shadow: inset 6px 0 0 {{ l.bar }}; color: {{ l.nameC }}; cursor: pointer;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                    <span style="font-size: 16px; font-weight: 800; color: {{ l.nameC }};">{{ l.name }}</span>
+                    <span style="flex: none; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: {{ l.tagC }};">{{ l.mark }}</span>
+                  </div>
+                  <div style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: {{ l.subC }};">{{ l.address }}</div>
+                  <div style="margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: {{ l.subC }};">{{ l.detail }} · {{ l.priceLabel }}</div>
+                </button>
+              </sc-for>
+            </div>
+            <h2 style="margin: 30px 0 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(22px, 2.6vw, 28px); letter-spacing: -.015em;">2 · Kies datum &amp; tijd</h2>
+            <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-top: 12px; padding: 10px 14px; background: #C4F82A; color: #0A0A0A;">
+              <span style="font-family: Anton, Impact, sans-serif; font-size: 14px; letter-spacing: .1em; text-transform: uppercase;">Tijden voor</span>
+              <span style="font-size: 15px; font-weight: 800;">{{ sumLoc }}</span>
+            </div>
             <div style="display: flex; gap: 10px; overflow-x: auto; padding: 18px 2px 8px;">
               <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
                 <button onClick="{{ d.select }}" style="flex: none; width: 84px; padding: 14px 8px; border-radius: 0; border: 1px solid {{ d.ring }}; background: {{ d.bg }}; color: {{ d.fg }}; cursor: pointer; text-align: center;">
@@ -98,21 +114,9 @@
           </div>
 
           <div style="min-width: 0; padding: 18px; border-radius: 0; background: #F2F2EF; border: 1px solid #E2E2DC;">
-            <h2 style="margin: 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.6vw, 25px); letter-spacing: -.015em;">Locatie</h2>
+            <h2 style="margin: 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(20px, 2.2vw, 24px); letter-spacing: -.015em;">Jouw keuze</h2>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 14px;">
-              <sc-for list="{{ locations }}" as="l" hint-placeholder-count="2">
-                <button onClick="{{ l.select }}" style="text-align: left; padding: 16px; border-radius: 0; border: 1px solid {{ l.ring }}; background: {{ l.bg }}; color: inherit; cursor: pointer;">
-                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
-                    <span style="font-size: 15px; font-weight: 800; color: #0A0A0A;">{{ l.name }}</span>
-                    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: {{ l.tagC }};">{{ l.tag }}</span>
-                  </div>
-                  <div style="margin-top: 7px; font-size: 13px; line-height: 1.6; color: #5C5C56;">{{ l.address }}</div>
-                  <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #75756E;">
-                    <span>{{ l.detail }}</span>
-                    <span style="color: {{ l.tagC }};">{{ l.priceLabel }}</span>
-                  </div>
-                </button>
-              </sc-for>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #75756E;">Locatie</span><span style="font-weight: 700; text-align: right;">{{ sumLoc }}<br /><span style="font-weight: 400; font-size: 13px; color: #5C5C56;">{{ sumAddress }}</span></span></div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #E2E2DC;">
               <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #75756E;">Datum</span><span style="font-weight: 700; text-align: right;">{{ sumDate }}</span></div>
@@ -290,7 +294,7 @@ class Component extends DCLogic {
     const loc = locs[s.loc] || locs[0];
     const locations = locs.map((l, i) => {
       const a = s.loc === i;
-      return { ...l, priceLabel: "€ " + l.price + ",-", bg: a ? "#F4FBE0" : "#FFFFFF", ring: a ? on : "#E2E2DC", tagC: a ? "#4C7A00" : "#8A8A84",
+      return { ...l, priceLabel: "€ " + l.price + ",-", bg: a ? "#0A0A0A" : "#FFFFFF", ring: a ? "#0A0A0A" : "#E2E2DC", bar: a ? on : "#FFFFFF", nameC: a ? "#FFFFFF" : "#0A0A0A", subC: a ? "#D6D6D0" : "#5C5C56", tagC: a ? on : "#75756E", mark: a ? "✓ Gekozen" : l.tag, pressed: a ? "true" : "false",
         select: () => this.setState({ loc: i, time: null, day: 0, hold: 600 }) };
     });
 
@@ -353,7 +357,7 @@ class Component extends DCLogic {
       totalLabel: total, holdLabel: mm + ":" + ss,
       sumDate: (allDays[dayIdx] || allDays[0]).full,
       sumTime: s.time ? s.time + " uur" : "—",
-      sumLoc: loc.name, sumDuration: loc.duration,
+      sumLoc: loc.name, sumAddress: loc.address, sumDuration: loc.duration,
       sumMethod: s.method === null ? "—" : methodList[s.method].label,
       bookingRef: "FT-26" + String(8950 + (s.bStep === 3 ? s.bookings.length - 1 : s.bookings.length) * 13),
       myBookings: [...s.bookings].sort((a, b) => (a.iso + a.time).localeCompare(b.iso + b.time)).map((b) => ({
