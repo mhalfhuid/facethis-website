@@ -5,10 +5,11 @@
   function meta(n, c, attr) { var m = document.createElement('meta'); m.setAttribute(attr || 'name', n); m.content = c; head.appendChild(m); }
   var vp = document.querySelector('meta[name=viewport]');
   if (vp) vp.content = 'width=device-width, initial-scale=1, viewport-fit=cover';
-  meta('theme-color', '#0a0a0a');
+  var dark = /training\.html$/.test(location.pathname);
+  meta('theme-color', dark ? '#0a0a0a' : '#ffffff');
   meta('apple-mobile-web-app-capable', 'yes');
   meta('mobile-web-app-capable', 'yes');
-  meta('apple-mobile-web-app-status-bar-style', 'black-translucent');
+  meta('apple-mobile-web-app-status-bar-style', dark ? 'black-translucent' : 'default');
   meta('apple-mobile-web-app-title', 'FaceThis');
   meta('format-detection', 'telephone=no');
   [['manifest', 'manifest.webmanifest'], ['apple-touch-icon', 'icons/apple-touch-icon.png'], ['icon', 'icons/icon-192.png']].forEach(function (l) {
@@ -18,7 +19,7 @@
   var css = '' +
     '@view-transition{navigation:auto}' +
     '::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}' +
-    'html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:#0a0a0a}' +
+    'html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:' + (dark ? '#0a0a0a' : '#ffffff') + '}' +
     'body{-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}' +
     'button,a,[role=button]{touch-action:manipulation}' +
     'input,select,textarea{font-size:max(16px,1em)}' +
@@ -31,11 +32,11 @@
       'header button{min-height:40px}' +
       'header .wrap{flex-wrap:nowrap !important}' +
       '#ft-tabs{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:2147483600;height:calc(64px + env(safe-area-inset-bottom));padding:0 6px env(safe-area-inset-bottom);' +
-        'background:rgba(12,12,11,.88);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border-top:1px solid #23231f}' +
-      '#ft-tabs a,#ft-tabs button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:0;background:none;color:#8a8a84;' +
+        'background:' + (dark ? 'rgba(12,12,11,.88)' : 'rgba(255,255,255,.94)') + ';-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border-top:1px solid ' + (dark ? '#23231f' : '#E2E2DC') + '}' +
+      '#ft-tabs a,#ft-tabs button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:0;background:none;color:' + (dark ? '#8a8a84' : '#75756E') + ';' +
         'font:700 10px/1 Archivo,Helvetica,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer;-webkit-user-select:none;user-select:none;transition:color .15s,transform .1s}' +
       '#ft-tabs svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}' +
-      '#ft-tabs .on{color:#C4F82A}' +
+      (dark ? '#ft-tabs .on{color:#C4F82A}' : '#ft-tabs .on{color:#0A0A0A;box-shadow:inset 0 3px 0 #C4F82A}') +
       '#ft-tabs a:active,#ft-tabs button:active{transform:scale(.92)}' +
       'button:active,a:active{opacity:.85}' +
     '}' +

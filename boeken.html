@@ -19,50 +19,50 @@
 <style>
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin: 0; background: #0a0a0a; color: #f5f5f3; font-family: Archivo, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-  a { color: #C4F82A; text-decoration: none; }
-  a:hover { color: #ffffff; }
+  body { margin: 0; background: #FFFFFF; color: #0A0A0A; font-family: Archivo, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #0A0A0A; text-decoration: none; }
+  a:hover { color: #4C7A00; }
   input, textarea, button, select { font-family: inherit; }
   @keyframes ft-pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.14); opacity: .7; } }
   @keyframes ft-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 </style>
 </helmet>
 
-<div style="max-width: 1120px; margin: 0 auto; padding: 0 clamp(14px, 3vw, 32px) 72px;">
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 3vw, 32px) 72px; background: #FFFFFF; color: #0A0A0A;">
 
-  <header style="position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; background: rgba(10,10,10,.86); backdrop-filter: blur(14px); border-bottom: 1px solid #1e1e1c;">
-    <div style="display: flex; align-items: baseline; gap: 2px; font-family: Anton, Impact, sans-serif; font-size: clamp(19px, 3vw, 24px); letter-spacing: .02em; text-transform: uppercase;">Face<span style="color: #C4F82A;">This</span></div>
+  <header style="position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 0; background: rgba(255,255,255,.94); backdrop-filter: blur(14px); border-bottom: 1px solid #E2E2DC;">
+    <div style="display: flex; align-items: baseline; gap: 2px; font-family: Anton, Impact, sans-serif; font-size: clamp(19px, 3vw, 24px); letter-spacing: .02em; text-transform: uppercase;"><a href="index.html" style="color: #0A0A0A;">Face<span style="padding: 0 4px; margin-left: 2px; background: #C4F82A; color: #0A0A0A;">This</span></a></div>
     <div style="display: flex; align-items: center; gap: 14px;">
-      <a href="training.html" style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;">Training</a>
-      <button onClick="{{ authAction }}" style="display: flex; align-items: center; gap: 12px; padding: 8px 14px 8px 8px; border-radius: 999px; background: #111110; border: 1px solid #21211d; color: #f5f5f3; text-align: left; cursor: pointer;">
+      <a href="training.html" style="padding-bottom: 4px; border-bottom: 2px solid #C4F82A; font-size: 15px; font-weight: 600;">Training</a>
+      <button onClick="{{ authAction }}" style="display: flex; align-items: center; gap: 12px; padding: 8px 14px 8px 8px; border-radius: 0; background: #FFFFFF; border: 1px solid #E2E2DC; color: #0A0A0A; text-align: left; cursor: pointer;">
         <div style="width: 32px; height: 32px; border-radius: 999px; background: repeating-linear-gradient(135deg, #26261f 0 6px, #1a1a16 6px 12px);"></div>
         <div>
           <div style="font-size: 13px; font-weight: 700;">{{ userName }}</div>
-          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8a84;">{{ userSub }}</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #75756E;">{{ userSub }}</div>
         </div>
       </button>
     </div>
   </header>
 
   <section style="padding: clamp(26px, 5vw, 48px) 0 clamp(18px, 3vw, 28px); animation: ft-rise .5s ease both;">
-    <h1 style="margin: 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(34px, 7vw, 64px); line-height: .96; text-transform: uppercase;">Boek een <span style="color: #C4F82A;">sessie</span></h1>
-    <p style="margin: 12px 0 0; max-width: 48ch; font-size: clamp(14px, 1.6vw, 17px); line-height: 1.6; color: #b9b9b4;">Kies je tijd en locatie, betaal direct. Je slot staat vast zodra de betaling is afgerond.</p>
+    <h1 style="margin: 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.6vw, 46px); line-height: 1.15; letter-spacing: -.015em;">Boek een <span style="padding: 0 .08em; background: linear-gradient(transparent 58%, #C4F82A 58%);">sessie</span></h1>
+    <p style="margin: 12px 0 0; max-width: 48ch; font-size: clamp(14px, 1.6vw, 17px); line-height: 1.6; color: #55554F;">Kies je tijd en locatie, betaal direct. Je slot staat vast zodra de betaling is afgerond.</p>
   </section>
 
   <sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ false }}">
-      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: clamp(26px, 5vw, 52px); border-radius: clamp(20px, 3vw, 28px); background: #0f0f0e; border: 1px solid #21211d;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: clamp(26px, 5vw, 52px); border-radius: 0; background: #F2F2EF; border: 1px solid #E2E2DC;">
         <div style="max-width: 52ch;">
-          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #C4F82A;">Alleen voor klanten</div>
+          <div style="font-family: Anton, Impact, sans-serif; font-size: 16px; letter-spacing: .14em; text-transform: uppercase; color: #4C7A00;">Alleen voor klanten</div>
           <h3 style="margin: 12px 0 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(26px, 4vw, 42px); line-height: 1; text-transform: uppercase;">Log eerst in om te boeken</h3>
-          <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: #b9b9b4;">Na het inloggen kies je tijd en locatie en betaal je direct. Je geboekte sessies en je trainingsroutine van Melvin staan dan ook klaar.</p>
+          <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: #55554F;">Na het inloggen kies je tijd en locatie en betaal je direct. Je geboekte sessies en je trainingsroutine van Melvin staan dan ook klaar.</p>
         </div>
-        <button onClick="{{ openLogin }}" style="padding: 17px 30px; border: none; border-radius: 999px; background: #C4F82A; color: #0a0a0a; font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; box-shadow: 0 12px 34px rgba(196,248,42,.22);">Inloggen</button>
+        <button onClick="{{ openLogin }}" style="padding: 17px 30px; border: none; border-radius: 0; background: #C4F82A; color: #0a0a0a; font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; ">Inloggen</button>
       </div>
     </sc-if>
     <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ true }}">
     <div data-demo-flow>
-  <div style="border-radius: clamp(20px, 3vw, 28px); background: #0f0f0e; border: 1px solid #21211d; overflow: hidden;">
-    <div style="display: flex; flex-wrap: wrap; gap: 10px; padding: 18px clamp(16px, 3vw, 28px); border-bottom: 1px solid #1e1e1c;">
+  <div style="border-radius: 0; background: #F2F2EF; border: 1px solid #E2E2DC; overflow: hidden;">
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; padding: 18px clamp(16px, 3vw, 28px); border-bottom: 1px solid #E2E2DC;">
       <sc-for list="{{ bSteps }}" as="bs" hint-placeholder-count="3">
         <div style="flex: 1 1 130px; min-width: 0;">
           <div style="height: 4px; border-radius: 999px; background: {{ bs.bar }};"></div>
@@ -78,11 +78,11 @@
       <sc-if value="{{ atAgenda }}" hint-placeholder-val="{{ true }}">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: clamp(18px, 3vw, 30px); align-items: start;">
           <div style="min-width: 0;">
-            <h2 style="margin: 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(21px, 2.8vw, 28px); text-transform: uppercase;">Kies datum &amp; tijd</h2>
-            <div style="margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .06em; color: #8a8a84;">Beschikbaarheid van {{ sumLoc }}</div>
+            <h2 style="margin: 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.6vw, 28px); letter-spacing: -.015em;">Kies datum &amp; tijd</h2>
+            <div style="margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .06em; color: #75756E;">Beschikbaarheid van {{ sumLoc }}</div>
             <div style="display: flex; gap: 10px; overflow-x: auto; padding: 18px 2px 8px;">
               <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
-                <button onClick="{{ d.select }}" style="flex: none; width: 84px; padding: 14px 8px; border-radius: 16px; border: 1px solid {{ d.ring }}; background: {{ d.bg }}; color: {{ d.fg }}; cursor: pointer; text-align: center;">
+                <button onClick="{{ d.select }}" style="flex: none; width: 84px; padding: 14px 8px; border-radius: 0; border: 1px solid {{ d.ring }}; background: {{ d.bg }}; color: {{ d.fg }}; cursor: pointer; text-align: center;">
                   <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; opacity: .7;">{{ d.dow }}</div>
                   <div style="margin-top: 6px; font-family: Anton, Impact, sans-serif; font-size: 26px; line-height: 1;">{{ d.dom }}</div>
                   <div style="margin-top: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; opacity: .7;">{{ d.mon }}</div>
@@ -91,34 +91,34 @@
             </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; margin-top: 14px;">
               <sc-for list="{{ slots }}" as="t" hint-placeholder-count="8">
-                <button onClick="{{ t.select }}" disabled="{{ t.full }}" style="padding: 14px 8px; border-radius: 12px; border: 1px solid {{ t.ring }}; background: {{ t.bg }}; color: {{ t.fg }}; font-size: 15px; font-weight: 700; cursor: {{ t.cursor }}; text-decoration: {{ t.deco }};">{{ t.label }}</button>
+                <button onClick="{{ t.select }}" disabled="{{ t.full }}" style="padding: 14px 8px; border-radius: 0; border: 1px solid {{ t.ring }}; background: {{ t.bg }}; color: {{ t.fg }}; font-size: 15px; font-weight: 700; cursor: {{ t.cursor }}; text-decoration: {{ t.deco }};">{{ t.label }}</button>
               </sc-for>
             </div>
-            <div style="margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.6; color: #8a8a84;">{{ agendaHint }}</div>
+            <div style="margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.6; color: #75756E;">{{ agendaHint }}</div>
           </div>
 
-          <div style="min-width: 0; padding: 18px; border-radius: 20px; background: #131311; border: 1px solid #21211d;">
-            <h2 style="margin: 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(19px, 2.4vw, 25px); text-transform: uppercase;">Locatie</h2>
+          <div style="min-width: 0; padding: 18px; border-radius: 0; background: #F2F2EF; border: 1px solid #E2E2DC;">
+            <h2 style="margin: 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.6vw, 25px); letter-spacing: -.015em;">Locatie</h2>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 14px;">
               <sc-for list="{{ locations }}" as="l" hint-placeholder-count="2">
-                <button onClick="{{ l.select }}" style="text-align: left; padding: 16px; border-radius: 16px; border: 1px solid {{ l.ring }}; background: {{ l.bg }}; color: inherit; cursor: pointer;">
+                <button onClick="{{ l.select }}" style="text-align: left; padding: 16px; border-radius: 0; border: 1px solid {{ l.ring }}; background: {{ l.bg }}; color: inherit; cursor: pointer;">
                   <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
-                    <span style="font-size: 15px; font-weight: 800; color: #f5f5f3;">{{ l.name }}</span>
+                    <span style="font-size: 15px; font-weight: 800; color: #0A0A0A;">{{ l.name }}</span>
                     <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: {{ l.tagC }};">{{ l.tag }}</span>
                   </div>
-                  <div style="margin-top: 7px; font-size: 13px; line-height: 1.6; color: #a8a8a2;">{{ l.address }}</div>
-                  <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8a84;">
+                  <div style="margin-top: 7px; font-size: 13px; line-height: 1.6; color: #5C5C56;">{{ l.address }}</div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #75756E;">
                     <span>{{ l.detail }}</span>
                     <span style="color: {{ l.tagC }};">{{ l.priceLabel }}</span>
                   </div>
                 </button>
               </sc-for>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #21211d;">
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Datum</span><span style="font-weight: 700; text-align: right;">{{ sumDate }}</span></div>
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Tijd</span><span style="font-weight: 700; text-align: right;">{{ sumTime }}</span></div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #E2E2DC;">
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #75756E;">Datum</span><span style="font-weight: 700; text-align: right;">{{ sumDate }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #75756E;">Tijd</span><span style="font-weight: 700; text-align: right;">{{ sumTime }}</span></div>
             </div>
-            <button onClick="{{ toBetalen }}" disabled="{{ noTime }}" style="width: 100%; margin-top: 16px; padding: 16px 24px; border: none; border-radius: 999px; background: {{ nextBg }}; color: {{ nextFg }}; font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: {{ nextCursor }};">Naar betalen →</button>
+            <button onClick="{{ toBetalen }}" disabled="{{ noTime }}" style="width: 100%; margin-top: 16px; padding: 16px 24px; border: none; border-radius: 0; background: {{ nextBg }}; color: {{ nextFg }}; font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: {{ nextCursor }};">Naar betalen →</button>
           </div>
         </div>
       </sc-if>
@@ -126,36 +126,36 @@
       <sc-if value="{{ atBetalen }}" hint-placeholder-val="{{ false }}">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: clamp(18px, 3vw, 30px); align-items: start;">
           <div>
-            <h2 style="margin: 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(21px, 2.8vw, 28px); text-transform: uppercase;">Betalen</h2>
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 12px 16px; border-radius: 12px; background: rgba(196,248,42,.08); border: 1px solid rgba(196,248,42,.35);">
+            <h2 style="margin: 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.6vw, 28px); letter-spacing: -.015em;">Betalen</h2>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 12px 16px; border-radius: 0; background: #F4FBE0; border: 1px solid #C4F82A;">
               <span style="width: 8px; height: 8px; border-radius: 999px; background: #C4F82A; animation: ft-pulse 1.6s ease-in-out infinite;"></span>
-              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #C4F82A;">Slot vastgehouden — {{ holdLabel }}</span>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #4C7A00;">Slot vastgehouden — {{ holdLabel }}</span>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px;">
               <sc-for list="{{ methods }}" as="m" hint-placeholder-count="4">
-                <button onClick="{{ m.select }}" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border-radius: 14px; border: 1px solid {{ m.ring }}; background: {{ m.bg }}; color: #f5f5f3; font-size: 15px; font-weight: 700; cursor: pointer; text-align: left;">
+                <button onClick="{{ m.select }}" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border-radius: 0; border: 1px solid {{ m.ring }}; background: {{ m.bg }}; color: #0A0A0A; font-size: 15px; font-weight: 700; cursor: pointer; text-align: left;">
                   <span>{{ m.label }}</span>
                   <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: {{ m.noteC }};">{{ m.note }}</span>
                 </button>
               </sc-for>
             </div>
-            <p style="margin: 16px 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.7; color: #6e6e68;">Beveiligde betaling. Je timeslot is pas definitief zodra de betaling is afgerond.</p>
+            <p style="margin: 16px 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.7; color: #8A8A84;">Beveiligde betaling. Je timeslot is pas definitief zodra de betaling is afgerond.</p>
           </div>
-          <div style="padding: 20px; border-radius: 18px; background: #131311; border: 1px solid #21211d;">
-            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8a8a84;">Overzicht</div>
+          <div style="padding: 20px; border-radius: 0; background: #F2F2EF; border: 1px solid #E2E2DC;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #75756E;">Overzicht</div>
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Datum</span><span style="font-weight: 700; text-align: right;">{{ sumDate }}</span></div>
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Tijd</span><span style="font-weight: 700; text-align: right;">{{ sumTime }}</span></div>
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Locatie</span><span style="font-weight: 700; text-align: right;">{{ sumLoc }}</span></div>
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Coach</span><span style="font-weight: 700; text-align: right;">Melvin Halfhuid</span></div>
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #8a8a84;">Duur</span><span style="font-weight: 700; text-align: right;">{{ sumDuration }}</span></div>
-              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-top: 14px; border-top: 1px solid #21211d;">
-                <span style="font-size: 14px; color: #8a8a84;">Totaal</span>
-                <span style="font-family: Anton, Impact, sans-serif; font-size: 30px; color: #C4F82A;">{{ totalLabel }}</span>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #75756E;">Datum</span><span style="font-weight: 700; text-align: right;">{{ sumDate }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #75756E;">Tijd</span><span style="font-weight: 700; text-align: right;">{{ sumTime }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #75756E;">Locatie</span><span style="font-weight: 700; text-align: right;">{{ sumLoc }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #75756E;">Coach</span><span style="font-weight: 700; text-align: right;">Melvin Halfhuid</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #75756E;">Duur</span><span style="font-weight: 700; text-align: right;">{{ sumDuration }}</span></div>
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-top: 14px; border-top: 1px solid #E2E2DC;">
+                <span style="font-size: 14px; color: #75756E;">Totaal</span>
+                <span style="font-family: Anton, Impact, sans-serif; font-size: 30px; color: #4C7A00;">{{ totalLabel }}</span>
               </div>
             </div>
-            <button onClick="{{ pay }}" disabled="{{ noMethod }}" style="width: 100%; margin-top: 18px; padding: 17px 20px; border: none; border-radius: 999px; background: {{ payBg }}; color: {{ payFg }}; font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: {{ payCursor }};">{{ payLabel }}</button>
-            <button onClick="{{ toAgenda }}" style="width: 100%; margin-top: 10px; padding: 13px 20px; border-radius: 999px; border: 1px solid #2c2c26; background: transparent; color: #b9b9b4; font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; cursor: pointer;">← Tijd of locatie wijzigen</button>
+            <button onClick="{{ pay }}" disabled="{{ noMethod }}" style="width: 100%; margin-top: 18px; padding: 17px 20px; border: none; border-radius: 0; background: {{ payBg }}; color: {{ payFg }}; font-size: 14px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: {{ payCursor }};">{{ payLabel }}</button>
+            <button onClick="{{ toAgenda }}" style="width: 100%; margin-top: 10px; padding: 13px 20px; border-radius: 0; border: 1px solid #E2E2DC; background: transparent; color: #55554F; font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; cursor: pointer;">← Tijd of locatie wijzigen</button>
           </div>
         </div>
       </sc-if>
@@ -163,23 +163,23 @@
       <sc-if value="{{ atBevestiging }}" hint-placeholder-val="{{ false }}">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: clamp(18px, 3vw, 30px); align-items: start;">
           <div>
-            <div style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: #C4F82A; color: #0a0a0a; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;">Betaling geslaagd</div>
-            <h2 style="margin: 18px 0 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(25px, 4vw, 42px); line-height: 1; text-transform: uppercase;">Je training staat vast</h2>
-            <p style="margin: 12px 0 0; max-width: 44ch; font-size: 15px; line-height: 1.7; color: #b9b9b4;">De bevestiging is ook naar je e-mail gestuurd, met datum, tijd, locatie en betaalstatus.</p>
+            <div style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 0; background: #C4F82A; color: #0a0a0a; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;">Betaling geslaagd</div>
+            <h2 style="margin: 18px 0 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.6vw, 42px); line-height: 1.15; letter-spacing: -.015em;">Je training staat vast</h2>
+            <p style="margin: 12px 0 0; max-width: 44ch; font-size: 15px; line-height: 1.7; color: #55554F;">De bevestiging is ook naar je e-mail gestuurd, met datum, tijd, locatie en betaalstatus.</p>
             <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px;">
-              <button onClick="{{ reset }}" style="padding: 15px 24px; border: none; border-radius: 999px; background: #C4F82A; color: #0a0a0a; font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: pointer;">Nog een sessie boeken</button>
-              <a href="#agenda" style="padding: 15px 24px; border-radius: 999px; border: 1px solid #2c2c26; color: #b9b9b4; font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;">Naar mijn agenda</a>
+              <button onClick="{{ reset }}" style="padding: 15px 24px; border: none; border-radius: 0; background: #C4F82A; color: #0a0a0a; font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; cursor: pointer;">Nog een sessie boeken</button>
+              <a href="#agenda" style="padding: 15px 24px; border-radius: 0; border: 1px solid #E2E2DC; color: #55554F; font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;">Naar mijn agenda</a>
             </div>
           </div>
-          <div style="padding: 22px; border-radius: 18px; background: #131311; border: 1px solid #C4F82A;">
-            <div style="display: flex; justify-content: space-between; gap: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #8a8a84;">
-              <span>Boekingsnr.</span><span style="color: #C4F82A;">{{ bookingRef }}</span>
+          <div style="padding: 22px; border-radius: 0; background: #F2F2EF; border: 1px solid #C4F82A;">
+            <div style="display: flex; justify-content: space-between; gap: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #75756E;">
+              <span>Boekingsnr.</span><span style="color: #4C7A00;">{{ bookingRef }}</span>
             </div>
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 18px;">
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #8a8a84;">Datum</span><span style="font-weight: 700; text-align: right;">{{ sumDate }}</span></div>
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #8a8a84;">Tijd</span><span style="font-weight: 700; text-align: right;">{{ sumTime }}</span></div>
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #8a8a84;">Locatie</span><span style="font-weight: 700; text-align: right;">{{ sumLoc }}</span></div>
-              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #8a8a84;">Betaald</span><span style="font-weight: 700; text-align: right; color: #C4F82A;">{{ totalLabel }} — {{ sumMethod }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #75756E;">Datum</span><span style="font-weight: 700; text-align: right;">{{ sumDate }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #75756E;">Tijd</span><span style="font-weight: 700; text-align: right;">{{ sumTime }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #75756E;">Locatie</span><span style="font-weight: 700; text-align: right;">{{ sumLoc }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span style="color: #75756E;">Betaald</span><span style="font-weight: 700; text-align: right; color: #4C7A00;">{{ totalLabel }} — {{ sumMethod }}</span></div>
             </div>
           </div>
         </div>
@@ -190,36 +190,36 @@
   <section id="agenda" style="padding-top: clamp(36px, 5vw, 60px);">
     <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px;">
       <div>
-        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #C4F82A;">Mijn agenda</div>
-        <h2 style="margin: 10px 0 0; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: clamp(24px, 3.4vw, 38px); line-height: 1; text-transform: uppercase;">Jouw geboekte sessies</h2>
+        <div style="font-family: Anton, Impact, sans-serif; font-size: 16px; letter-spacing: .14em; text-transform: uppercase; color: #4C7A00;">Mijn agenda</div>
+        <h2 style="margin: 10px 0 0; font-family: Archivo, Helvetica, Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.6vw, 38px); line-height: 1.15; letter-spacing: -.015em;">Jouw geboekte sessies</h2>
       </div>
-      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8a8a84;">{{ agendaCount }} — coach Melvin Halfhuid</div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #75756E;">{{ agendaCount }} — coach Melvin Halfhuid</div>
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
       <sc-for list="{{ myBookings }}" as="b" hint-placeholder-count="3">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 14px; align-items: center; padding: 18px; border-radius: 18px; background: {{ b.bg }}; border: 1px solid {{ b.ring }};">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 14px; align-items: center; padding: 18px; border-radius: 0; background: {{ b.bg }}; border: 1px solid {{ b.ring }};">
           <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
-            <div style="flex: none; width: 54px; padding: 8px 0; border-radius: 12px; background: #1c1c19; text-align: center;">
-              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; color: #8a8a84;">{{ b.dow }}</div>
+            <div style="flex: none; width: 54px; padding: 8px 0; border-radius: 0; background: #ECECE7; text-align: center;">
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; color: #75756E;">{{ b.dow }}</div>
               <div style="font-family: Anton, Impact, sans-serif; font-size: 22px; line-height: 1.1; color: {{ b.dateC }};">{{ b.dom }}</div>
-              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8a84;">{{ b.mon }}</div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #75756E;">{{ b.mon }}</div>
             </div>
             <div style="min-width: 0;">
               <div style="font-size: 15px; font-weight: 800;">{{ b.time }}</div>
-              <div style="margin-top: 3px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8a84;">{{ b.duration }}</div>
+              <div style="margin-top: 3px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #75756E;">{{ b.duration }}</div>
             </div>
           </div>
           <div style="min-width: 0;">
-            <div style="font-size: 14px; font-weight: 700; color: #e2e2dd;">{{ b.loc }}</div>
-            <div style="margin-top: 3px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8a84;">{{ b.address }}</div>
+            <div style="font-size: 14px; font-weight: 700; color: #26261F;">{{ b.loc }}</div>
+            <div style="margin-top: 3px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #75756E;">{{ b.address }}</div>
           </div>
           <div style="min-width: 0;">
-            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8a84;">{{ b.ref }}</div>
-            <div style="margin-top: 3px; font-size: 13px; font-weight: 700; color: #e2e2dd;">{{ b.amount }}</div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #75756E;">{{ b.ref }}</div>
+            <div style="margin-top: 3px; font-size: 13px; font-weight: 700; color: #26261F;">{{ b.amount }}</div>
           </div>
           <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;">
-            <span style="padding: 8px 14px; border-radius: 999px; background: {{ b.statusBg }}; color: {{ b.statusFg }}; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;">{{ b.status }}</span>
+            <span style="padding: 8px 14px; border-radius: 0; background: {{ b.statusBg }}; color: {{ b.statusFg }}; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;">{{ b.status }}</span>
           </div>
         </div>
       </sc-for>
@@ -228,12 +228,12 @@
   </div>
   </sc-if>
 
-  <footer style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: clamp(32px, 5vw, 56px); padding-top: 24px; border-top: 1px solid #1e1e1c;">
-    <div style="font-family: Anton, Impact, sans-serif; font-size: 19px; text-transform: uppercase;">Face<span style="color: #C4F82A;">This</span></div>
+  <footer style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: clamp(32px, 5vw, 56px); padding-top: 24px; border-top: 1px solid #E2E2DC;">
+    <div style="font-family: Anton, Impact, sans-serif; font-size: 19px; text-transform: uppercase;">Face<span style="padding: 0 3px; margin-left: 2px; background: #C4F82A; color: #0A0A0A;">This</span></div>
     <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
-      <a href="https://instagram.com/facethis" target="_blank" rel="noopener" style="padding: 11px 18px; border-radius: 999px; border: 1px solid #2c2c26; color: #f5f5f3; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;" style-hover="border-color: #C4F82A; color: #C4F82A;">Instagram</a>
-      <a href="https://tiktok.com/@facethis" target="_blank" rel="noopener" style="padding: 11px 18px; border-radius: 999px; border: 1px solid #2c2c26; color: #f5f5f3; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;" style-hover="border-color: #C4F82A; color: #C4F82A;">TikTok</a>
-      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .08em; color: #6e6e68;">Rijnkade 12, Utrecht</span>
+      <a href="https://instagram.com/facethis" target="_blank" rel="noopener" style="padding: 11px 18px; border-radius: 0; border: 1px solid #E2E2DC; color: #0A0A0A; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;" style-hover="border-color: #C4F82A; color: #C4F82A;">Instagram</a>
+      <a href="https://tiktok.com/@facethis" target="_blank" rel="noopener" style="padding: 11px 18px; border-radius: 0; border: 1px solid #E2E2DC; color: #0A0A0A; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;" style-hover="border-color: #C4F82A; color: #C4F82A;">TikTok</a>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .08em; color: #8A8A84;">Rijnkade 12, Utrecht</span>
     </div>
   </footer>
 </div>
@@ -290,7 +290,7 @@ class Component extends DCLogic {
     const loc = locs[s.loc] || locs[0];
     const locations = locs.map((l, i) => {
       const a = s.loc === i;
-      return { ...l, priceLabel: "€ " + l.price + ",-", bg: a ? "#1a1a16" : "transparent", ring: a ? on : "#21211d", tagC: a ? on : "#6e6e68",
+      return { ...l, priceLabel: "€ " + l.price + ",-", bg: a ? "#F4FBE0" : "#FFFFFF", ring: a ? on : "#E2E2DC", tagC: a ? "#4C7A00" : "#8A8A84",
         select: () => this.setState({ loc: i, time: null, day: 0, hold: 600 }) };
     });
 
@@ -298,7 +298,7 @@ class Component extends DCLogic {
     const dayIdx = Math.min(s.day, allDays.length - 1);
     const days = allDays.map((d, i) => {
       const a = i === dayIdx;
-      return { ...d, bg: a ? on : "transparent", fg: a ? "#0a0a0a" : "#e2e2dd", ring: a ? on : "#2c2c26",
+      return { ...d, bg: a ? on : "transparent", fg: a ? "#0a0a0a" : "#26261F", ring: a ? on : "#E2E2DC",
         select: () => this.setState({ day: i, time: null, hold: 600 }) };
     });
 
@@ -309,7 +309,7 @@ class Component extends DCLogic {
       const full = fullSet.includes(i) || mine;
       const a = s.time === label;
       return { label, full, cursor: full ? "not-allowed" : "pointer", deco: full ? "line-through" : "none",
-        bg: a ? on : "transparent", fg: full ? "#4a4a44" : a ? "#0a0a0a" : "#e2e2dd", ring: a ? on : "#252520",
+        bg: a ? on : "transparent", fg: full ? "#B5B5AE" : a ? "#0a0a0a" : "#26261F", ring: a ? on : "#E2E2DC",
         select: () => { if (!full) this.setState({ time: label, hold: 600 }); } };
     });
 
@@ -321,12 +321,12 @@ class Component extends DCLogic {
     ];
     const methods = methodList.map((m, i) => {
       const a = s.method === i;
-      return { ...m, bg: a ? "#1a1a16" : "transparent", ring: a ? on : "#21211d", noteC: a ? on : "#6e6e68",
+      return { ...m, bg: a ? "#F4FBE0" : "#FFFFFF", ring: a ? on : "#E2E2DC", noteC: a ? "#4C7A00" : "#8A8A84",
         select: () => this.setState({ method: i }) };
     });
 
     const noTime = !s.time, noMethod = s.method === null || s.paying;
-    const cta = (dis) => ({ bg: dis ? "#1c1c19" : on, fg: dis ? "#5c5c56" : "#0a0a0a", cursor: dis ? "not-allowed" : "pointer" });
+    const cta = (dis) => ({ bg: dis ? "#ECECE7" : on, fg: dis ? "#A3A39C" : "#0a0a0a", cursor: dis ? "not-allowed" : "pointer" });
     const n = cta(noTime), p = cta(noMethod);
     const total = "€ " + loc.price + ",00";
     const mm = Math.floor(s.hold / 60), ss = String(s.hold % 60).padStart(2, "0");
@@ -341,7 +341,7 @@ class Component extends DCLogic {
       authLabel: s.user ? "Uitloggen" : "Inloggen",
       bSteps: labels.map(([num, label], i) => {
         const done = s.bStep >= i + 1;
-        return { num, label, bar: done ? on : "#252520", numC: done ? on : "#5c5c56", labelC: done ? "#f5f5f3" : "#5c5c56" };
+        return { num, label, bar: done ? on : "#E2E2DC", numC: done ? "#4C7A00" : "#A3A39C", labelC: done ? "#0A0A0A" : "#A3A39C" };
       }),
       atAgenda: s.bStep === 1, atBetalen: s.bStep === 2, atBevestiging: s.bStep === 3,
       days, slots, locations, methods,
@@ -358,11 +358,11 @@ class Component extends DCLogic {
       bookingRef: "FT-26" + String(8950 + (s.bStep === 3 ? s.bookings.length - 1 : s.bookings.length) * 13),
       myBookings: [...s.bookings].sort((a, b) => (a.iso + a.time).localeCompare(b.iso + b.time)).map((b) => ({
         ...b,
-        bg: b.isNew ? "#16170f" : "#111110",
-        ring: b.isNew ? on : "#21211d",
-        dateC: b.isNew ? on : "#f5f5f3",
+        bg: b.isNew ? "#F4FBE0" : "#FFFFFF",
+        ring: b.isNew ? on : "#E2E2DC",
+        dateC: b.isNew ? "#4C7A00" : "#0A0A0A",
         status: b.isNew ? "Nieuw — betaald" : b.status,
-        statusBg: b.isNew ? on : "#1c1c19",
+        statusBg: b.isNew ? on : "#ECECE7",
         statusFg: b.isNew ? "#0a0a0a" : on
       })),
       agendaCount: s.bookings.length + " sessies gepland",
